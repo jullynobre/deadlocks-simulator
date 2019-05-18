@@ -28,10 +28,6 @@ class SO {
         return alocationMatrix
     }
     
-    func say (_ messenge: Any) {
-        print("\(getTime()) - SO: \(messenge)")
-    }
-    
     func killProcess(id: Int) {
         if (!processes.keys.contains(id)) {
             print("id inválido")
