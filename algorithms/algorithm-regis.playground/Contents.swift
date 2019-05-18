@@ -80,7 +80,7 @@ class Process {
     }
     
     func say(_ messenge: String) {
-        print("\(getTime()) - \(id): \(messenge)\n")
+//        print("\(getTime()) - \(id): \(messenge)\n")
     }
     
     func store(resouceId: Int) {
@@ -137,6 +137,7 @@ class Process {
                     self.say("got \(self.resourcesTable[self.disiredResource!]!.name)")
                     
                     self.store(resouceId: self.disiredResource!)
+                    self.disiredResource = nil
                 }
                 
                 // Reset counters
@@ -183,9 +184,9 @@ class SO {
     }
     
     func seakDeadLocks() -> [Int] {
-        let avalibleReasorces = resourcesTable.compactMap{ $0.value.quantity > 0 ? $0.key : nil }
-        let blockedProcesses = processes.compactMap{ avalibleReasorces.contains($0.value.disiredResource ?? -1) ? nil : $0.value }
-        let readyProcesses = processes.compactMap{ avalibleReasorces.contains($0.value.disiredResource ?? -1) ? $0.value : nil }
+        let avalibleReasorces = resourcesTable.keys.filter {$0.quantity > 0}
+        let blockedProcesses = processes.values.filter {!avalibleReasorces.contains($0.disiredResource ?? -99)}
+        let readyProcesses = processes.compactMap{ avalibleReasorces.contains($0.value.disiredResource ?? -99) ? $0.value : nil }
         let securedResourcesInReadyProcess = Set<Int>(readyProcesses.map {$0.acquiredResoucesCount.compactMap {$0.value > 0 ? $0.key : nil}}.flatMap{ $0 })
         
         return blockedProcesses.compactMap{
@@ -206,6 +207,10 @@ class SO {
                 
                 if !deadLock.isEmpty {
                     print("Found deadlocks with \(deadLock.description)")
+                    for p in deadLock {
+                        let process : Process = self.processes[p]!
+                        print("process: \(process.id) has \(process.acquiredResoucesCount) and wants \(process.disiredResource ?? -99)")
+                    }
                 }
             }
         }
@@ -241,6 +246,15 @@ let so = SO(resourcesTable: resourcesTable, processes: processes)
 for p in processes.values { p.run() }
 
 so.watchProcesses(refreshTime: 1)
+
+while(true) {
+    for process in processes.values {
+        print("process: \(process.id) has \(process.acquiredResoucesCount) and wants \(process.disiredResource ?? -99)")
+    }
+    print("")
+    sleep(1)
+}
+
 
 so.killProcess(id: 1)
 
