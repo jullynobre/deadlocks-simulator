@@ -19,6 +19,9 @@ class Resource {
     
     let mutex: DispatchSemaphore = DispatchSemaphore(value: 1)
     
+    var simalatingGive: Bool = false
+    var canPickFalseReasouce: Int?
+    
     init (name: String, quantity: Int) {
         self.name = name
         self.quantitySemaphore = DispatchSemaphore(value: quantity)
@@ -26,9 +29,15 @@ class Resource {
         self.maxQuantity = quantity
     }
     
-    func give() {
-        quantitySemaphore.wait()
-        
+    func give(processId: Int) {
+        while true {
+            quantitySemaphore.wait()
+            if (!simalatingGive || canPickFalseReasouce == processId) {
+                simalatingGive = false
+                canPickFalseReasouce = -99
+                break
+            }
+        }
         mutex.wait()
         quantity -= 1
         mutex.signal()

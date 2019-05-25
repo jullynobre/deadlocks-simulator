@@ -12,6 +12,7 @@ import Foundation
 class SO {
     
     var processes: [Int: Process]
+    var killedProcesses: [Int] = []
     let resourcesTable: [Int: Resource]
     var isWatching = true
     
@@ -33,11 +34,17 @@ class SO {
             print("id inválido")
         } else {
             let process = processes[id]!
-            let processResoucersHistory = process.resoucersHistory
             process.cancel()
-            for r in processResoucersHistory {
-                process.removeOldest()
+            
+            if let desiredResouceId = process.disiredResource {
+                let desiredResouce = resourcesTable[desiredResouceId]!
+                desiredResouce.simalatingGive = true
+                desiredResouce.canPickFalseReasouce = id
+                while (desiredResouce.simalatingGive) {
+                    desiredResouce.retrive()
+                }
             }
+            processes[id] = nil
         }
     }
     
@@ -64,10 +71,10 @@ class SO {
     
     func printLocatedReasorces() {
         print("+==========================+")
-        for p in processes.keys.sorted(by: >) {
+        for p in processes.keys.sorted(by: <) {
             var pMessenge = "\(getTime()) - \(processes[p]!.id): "
-            for r in processes[p]!.acquiredResoucesCount.keys.sorted(by: >) {
-                pMessenge.append("\(processes[p]!.acquiredResoucesCount[r]!) ")
+            for r in processes[p]!.acquiredResoucesCount.keys.sorted(by: <) {
+                pMessenge.append("\(r) -> \(processes[p]!.acquiredResoucesCount[r]!) ")
             }
             pMessenge.append("\(processes[p]!.disiredResource)  \(processes[p]!.isCancelled ? "cancelado" : "")")
             print(pMessenge)
