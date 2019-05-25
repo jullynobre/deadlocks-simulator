@@ -22,29 +22,6 @@ class ViewController: NSViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-
-//        let resourcesTable: [Int: Resource] = [
-//            1: Resource(name: "Impressora", quantity: 2),
-//            2: Resource(name: "Gravadora de DVD", quantity: 2),
-//            3: Resource(name: "Câmera", quantity: 2),
-//            4: Resource(name: "Plotter", quantity: 2)]
-//
-//        var processes: [Int: Process] = [
-//            1: Process(id: 1, ts: 1, tu: 5, resourcesTable: resourcesTable),
-//            2: Process(id: 2, ts: 1, tu: 3, resourcesTable: resourcesTable),
-//            3: Process(id: 3, ts: 1, tu: 2, resourcesTable: resourcesTable)
-//        ]
-//
-//        let so = SO(resourcesTable: resourcesTable, processes: processes)
-//
-//        for p in processes.values { p.start() }
-//
-//        so.onDeadLock = { (so: SO) in
-//            print("DeadLock!!!")
-//            so.killProcessWithMoreResources()
-//        }
-//
-//        so.watchProcesses(refreshTime: 1)
 		
 		self.generateMatrixLabels()
 		self.generateResourcesLabels()
@@ -65,8 +42,7 @@ class ViewController: NSViewController {
 		
 		self.consoleBgView.wantsLayer = true
 		self.consoleBgView.layer?.backgroundColor = .init(red: 30/255, green: 30/255, blue: 30/255, alpha: 1.0)
-		
-    }
+	}
 	
 	func generateMatrixLabels() {
 		let heigth = 17, width = 21, xOrigin = 757, yOrigin = 607, xIncrease = 25, yIncrease = -25
