@@ -17,6 +17,8 @@ class ViewController: NSViewController {
 	
 	@IBOutlet weak var processesView: NSView!
 	@IBOutlet weak var resourcesView: NSView!
+	@IBOutlet weak var consoleScrollView: NSScrollView!
+	@IBOutlet weak var consoleBgView: NSView!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +62,10 @@ class ViewController: NSViewController {
 		self.resourcesView.layer?.borderColor = .white
 		self.resourcesView.layer?.borderWidth = 0.2
 		self.resourcesView.layer?.cornerRadius = 5
+		
+		self.consoleBgView.wantsLayer = true
+		self.consoleBgView.layer?.backgroundColor = .init(red: 30/255, green: 30/255, blue: 30/255, alpha: 1.0)
+		
     }
 	
 	func generateMatrixLabels() {
