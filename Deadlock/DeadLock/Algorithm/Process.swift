@@ -44,7 +44,7 @@ class Process: Thread {
         }
         
         if (elegibleReasorces.count == 0) {
-            say("Não há mais recursos para requisitar!!!\n")
+            say(self, "Não há mais recursos para requisitar!!!\n")
             Thread.sleep(forTimeInterval: 5.0)
             return chooseResouce()
         } else {
@@ -52,8 +52,8 @@ class Process: Thread {
         }
     }
     
-    func say(_ messenge: String) {
-//        print("\(getTime()) - \(id): \(messenge)\n")
+    var say = {(self: Process, messenge: String) in
+        print("\(getTime()) - \(self.id): \(messenge)\n")
     }
     
     func store(resouceId: Int) {
@@ -96,17 +96,17 @@ class Process: Thread {
                 
                 self.removeOldest()
                 
-                self.say("released \(self.resourcesTable[resourceId]!.name)")
+                self.say(self, "released \(self.resourcesTable[resourceId]!.name)")
             }
             // Ask Resouce
             if (timeToAsk == 0.0) {
                 self.disiredResource = self.chooseResouce()
                 
-                self.say("trying to get \(self.resourcesTable[self.disiredResource!]!.name)")
+                self.say(self, "trying to get \(self.resourcesTable[self.disiredResource!]!.name)")
                 
                 self.resourcesTable[self.disiredResource!]!.give()
                 
-                self.say("got \(self.resourcesTable[self.disiredResource!]!.name)")
+                self.say(self, "got \(self.resourcesTable[self.disiredResource!]!.name)")
                 
                 self.store(resouceId: self.disiredResource!)
                 
