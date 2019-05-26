@@ -53,7 +53,7 @@ class Process: Thread {
     }
     
     var say = {(self: Process, messenge: String) in
-        print("\(getTime()) - \(self.id): \(messenge)\n")
+//        print("\(getTime()) - \(self.id): \(messenge)\n")
     }
     
     func store(resouceId: Int) {
@@ -63,7 +63,9 @@ class Process: Thread {
     }
     
     func removeOldest() {
-        acquiredResoucesCount[resoucersHistory[0]] = acquiredResoucesCount[resoucersHistory[0]]! - 1
+        let resourceId: Int = resoucersHistory[0]
+        resourcesTable[resourceId]!.retrive()
+        acquiredResoucesCount[resourceId] = acquiredResoucesCount[resourceId]! - 1
         resoucersHistory.removeFirst()
     }
     
@@ -90,13 +92,8 @@ class Process: Thread {
             
             // Give back resouce
             if (timeToEndConsume == 0.0 && self.hasResouces()) {
-                let resourceId: Int = self.resoucersHistory[0]
-                
-                self.resourcesTable[resourceId]!.retrive()
-                
+                self.say(self, "released \(self.resourcesTable[self.resoucersHistory[0]]!.name)")
                 self.removeOldest()
-                
-                self.say(self, "released \(self.resourcesTable[resourceId]!.name)")
             }
             // Ask Resouce
             if (timeToAsk == 0.0) {
@@ -104,7 +101,7 @@ class Process: Thread {
                 
                 self.say(self, "trying to get \(self.resourcesTable[self.disiredResource!]!.name)")
                 
-                self.resourcesTable[self.disiredResource!]!.give()
+                self.resourcesTable[self.disiredResource!]!.give(processId: self.id)
                 
                 self.say(self, "got \(self.resourcesTable[self.disiredResource!]!.name)")
                 
