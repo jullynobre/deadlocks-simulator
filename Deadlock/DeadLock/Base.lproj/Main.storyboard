@@ -710,12 +710,34 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7n6-QK-eia">
-                                <rect key="frame" x="32" y="317" width="642" height="338"/>
+                                <rect key="frame" x="32" y="290" width="634" height="365"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isf-e9-iTq">
+                                        <rect key="frame" x="18" y="308" width="111" height="29"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Processes" id="XgR-hS-NJ8">
+                                            <font key="font" size="24" name=".AppleSystemUIFont"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
                             </customView>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eti-Ba-rfd">
-                                <rect key="frame" x="32" y="62" width="642" height="201"/>
+                                <rect key="frame" x="32" y="42" width="634" height="227"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R2L-wa-oHV">
+                                        <rect key="frame" x="18" y="170" width="113" height="29"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Resources" id="ox4-OB-i99">
+                                            <font key="font" size="24" name=".AppleSystemUIFont"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
                             </customView>
                             <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gFy-65-5wX">
                                 <rect key="frame" x="708" y="0.0" width="452" height="289"/>

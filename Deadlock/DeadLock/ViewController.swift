@@ -10,15 +10,18 @@ import Cocoa
 
 class ViewController: NSViewController {
 	
+	@IBOutlet weak var processesView: NSView!
+	@IBOutlet weak var resourcesView: NSView!
+	@IBOutlet weak var consoleScrollView: NSScrollView!
+	@IBOutlet weak var consoleBgView: NSView!
+	
 	var matrixLabels: [[NSTextField]] = [[]]
 	var processesIdLabels: [NSTextField] = []
 	var resourcesIdLabels: [NSTextField] = []
 	var processesArrayLabels: [NSTextField] = []
 	
-	@IBOutlet weak var processesView: NSView!
-	@IBOutlet weak var resourcesView: NSView!
-	@IBOutlet weak var consoleScrollView: NSScrollView!
-	@IBOutlet weak var consoleBgView: NSView!
+	var processesViews: [NSView] = []
+	var resourcesViews: [NSView] = []
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +31,9 @@ class ViewController: NSViewController {
 		self.generateProcessesLabels()
 		self.generateProcessesArrayLabels()
 		self.configureBordersAndColors()
+		
+		self.generateProcessesViews()
+		self.generateResourcesViews()
 	}
 	
     override var representedObject: Any? {

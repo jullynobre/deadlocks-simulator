@@ -82,4 +82,35 @@ extension ViewController {
 		
 		return label
 	}
+	
+	func generateResourcesViews() {
+		let xOrigin = 20, yOrigin = 96, width = 106, height = 60
+		
+		for xIndex in 0..<5 {
+			for yIndex in 0..<2 {
+				let xPosition = xOrigin + 122 * xIndex
+				let yPosition = yOrigin - 76 * yIndex
+				
+				let resource = ResourceView(frame: NSRect(x: xPosition, y: yPosition, width: width, height: height))
+				self.resourcesView.addSubview(resource)
+				self.resourcesViews.append(resource)
+			}
+		}
+		
+	}
+	
+	func generateProcessesViews() {
+		let xOrigin = 20, yOrigin = 212, width = 106, height = 80
+		
+		for xIndex in 0..<5 {
+			for yIndex in 0..<3 {
+				let xPosition = xOrigin + 122 * xIndex
+				let yPosition = yOrigin - 96 * yIndex
+				
+				let process = ProcessView(frame: NSRect(x: xPosition, y: yPosition, width: width, height: height))
+				self.processesView.addSubview(process)
+				self.processesViews.append(process)
+			}
+		}
+	}
 }
