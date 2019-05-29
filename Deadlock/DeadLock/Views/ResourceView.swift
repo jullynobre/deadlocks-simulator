@@ -29,7 +29,6 @@ class ResourceView: NSView {
 		self.addSubview(idLabel)
 		
 		self.resourceImage.image = NSImage(named: NSImage.Name("resourceImage"))
-		self.addSubview(resourceImage)
 		
 		self.nameLabel.font = NSFont(name: "Helvetica", size: 10)
 		self.nameLabel.backgroundColor = .clear
@@ -44,7 +43,6 @@ class ResourceView: NSView {
 		self.availableLabel.textColor = .init(red: 192/255, green: 328/255, blue: 127/255, alpha: 1.0)
 		self.addSubview(availableLabel)
 		
-		self.activateResource(id: 20, quantity: 20, available: 10, name: "Impressora")
     }
 	
 	func activateResource(id: Int, quantity: Int, available: Int, name: String) {
@@ -53,6 +51,11 @@ class ResourceView: NSView {
 		self.quantityLabel.string = "\(quantity)"
 		self.availableLabel.string = "\(available)"
 		
+		self.addSubview(resourceImage)
 		self.layer?.backgroundColor = .init(red: 84/255, green: 84/255, blue: 84/255, alpha: 0.7)
+	}
+	
+	func updateAvailableLabel(newValue: String) {
+		self.availableLabel.string = "\(newValue)"
 	}
 }

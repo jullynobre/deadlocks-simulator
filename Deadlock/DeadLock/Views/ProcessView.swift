@@ -36,8 +36,7 @@ class ProcessView: NSView {
 		self.addSubview(tuLabel)
 		
 		self.loadImage.image = NSImage(named: NSImage.Name("processImage"))
-		self.addSubview(loadImage)
-		activateProcess(id: 99, ts: 20, tu: 10)
+		
     }
 	
 	func activateProcess(id: Int, ts: Int, tu: Int) {
@@ -45,6 +44,15 @@ class ProcessView: NSView {
 		self.tsLabel.string = "Ts = \(ts)"
 		self.tuLabel.string = "Tu = \(tu)"
 		
+		self.addSubview(loadImage)
 		self.layer?.backgroundColor = .init(red: 84/255, green: 84/255, blue: 84/255, alpha: 0.7)
+	}
+	
+	func runImageAnimation() {
+		//Start gif
+	}
+	
+	func stopImageAnimation() {
+		//Stop gif
 	}
 }
