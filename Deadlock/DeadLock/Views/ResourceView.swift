@@ -13,7 +13,7 @@ class ResourceView: NSView {
 	var idLabel: NSTextView = NSTextView(frame: NSRect(x: 4, y: 40, width: 23, height: 12))
 	var nameLabel: NSTextView = NSTextView(frame: NSRect(x: 34, y: 32, width: 65, height: 12))
 	var quantityLabel: NSTextView = NSTextView(frame: NSRect(x: 34, y: 14, width: 30, height: 12))
-	var availableLabel: NSTextView = NSTextView(frame: NSRect(x: 66, y: 14, width: 30, height: 12))
+	var availableLabel: NSTextView = NSTextView(frame: NSRect(x: 66, y: 12, width: 30, height: 12))
 	var resourceImage: NSImageView = NSImageView(frame: NSRect(x: 8, y: 12, width: 25, height: 25))
 	
     override func draw(_ dirtyRect: NSRect) {
@@ -41,6 +41,7 @@ class ResourceView: NSView {
 		self.addSubview(quantityLabel)
 		
 		self.availableLabel.backgroundColor = .clear
+		self.availableLabel.textColor = .init(red: 192/255, green: 328/255, blue: 127/255, alpha: 1.0)
 		self.addSubview(availableLabel)
 		
 		self.activateResource(id: 20, quantity: 20, available: 10, name: "Impressora")
