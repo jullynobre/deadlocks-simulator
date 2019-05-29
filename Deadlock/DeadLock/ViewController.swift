@@ -26,14 +26,7 @@ class ViewController: NSViewController {
 	override func viewDidLoad() {
         super.viewDidLoad()
 		
-		self.generateMatrixLabels()
-		self.generateResourcesLabels()
-		self.generateProcessesLabels()
-		self.generateProcessesArrayLabels()
-		self.configureBordersAndColors()
-		
-		self.generateProcessesViews()
-		self.generateResourcesViews()
+		setupInterface()
 	}
 	
     override var representedObject: Any? {

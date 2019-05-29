@@ -10,6 +10,17 @@ import Cocoa
 
 extension ViewController {
 	
+	func setupInterface() {
+		self.generateMatrixLabels()
+		self.generateResourcesLabels()
+		self.generateProcessesLabels()
+		self.generateProcessesArrayLabels()
+		self.configureBordersAndColors()
+		
+		self.generateProcessesViews()
+		self.generateResourcesViews()
+	}
+	
 	func configureBordersAndColors() {
 		
 		self.processesView.wantsLayer = true
