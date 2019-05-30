@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57099FA222A00FD0006792D1 /* AddProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57099FA022A00FD0006792D1 /* AddProcessViewController.swift */; };
+		57099FA322A00FD0006792D1 /* AddProcessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57099FA122A00FD0006792D1 /* AddProcessViewController.xib */; };
+		57099FAA22A01023006792D1 /* AddResourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57099FA822A01023006792D1 /* AddResourceViewController.swift */; };
+		57099FAB22A01023006792D1 /* AddResourceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57099FA922A01023006792D1 /* AddResourceViewController.xib */; };
 		57AEAE17229ABFA1009D9C29 /* ViewControillerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AEAE16229ABFA1009D9C29 /* ViewControillerInterface.swift */; };
 		57AEAE1A229AC2A5009D9C29 /* ProcessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AEAE19229AC2A5009D9C29 /* ProcessView.swift */; };
 		57AEAE1C229AC2C5009D9C29 /* ResourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AEAE1B229AC2C5009D9C29 /* ResourceView.swift */; };
@@ -21,6 +25,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		57099FA022A00FD0006792D1 /* AddProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProcessViewController.swift; sourceTree = "<group>"; };
+		57099FA122A00FD0006792D1 /* AddProcessViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddProcessViewController.xib; sourceTree = "<group>"; };
+		57099FA822A01023006792D1 /* AddResourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddResourceViewController.swift; sourceTree = "<group>"; };
+		57099FA922A01023006792D1 /* AddResourceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddResourceViewController.xib; sourceTree = "<group>"; };
 		57AEAE16229ABFA1009D9C29 /* ViewControillerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControillerInterface.swift; sourceTree = "<group>"; };
 		57AEAE19229AC2A5009D9C29 /* ProcessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessView.swift; sourceTree = "<group>"; };
 		57AEAE1B229AC2C5009D9C29 /* ResourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceView.swift; sourceTree = "<group>"; };
@@ -48,6 +56,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57099FA422A00FD5006792D1 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				57099FA722A0100C006792D1 /* AddResourceViewController */,
+				57099FA622A00FFA006792D1 /* AddProcessViewController */,
+				57099FA522A00FF1006792D1 /* MainViewController */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		57099FA522A00FF1006792D1 /* MainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AC91F3662283975C009708AD /* ViewController.swift */,
+				57AEAE16229ABFA1009D9C29 /* ViewControillerInterface.swift */,
+			);
+			path = MainViewController;
+			sourceTree = "<group>";
+		};
+		57099FA622A00FFA006792D1 /* AddProcessViewController */ = {
+			isa = PBXGroup;
+			children = (
+				57099FA022A00FD0006792D1 /* AddProcessViewController.swift */,
+				57099FA122A00FD0006792D1 /* AddProcessViewController.xib */,
+			);
+			path = AddProcessViewController;
+			sourceTree = "<group>";
+		};
+		57099FA722A0100C006792D1 /* AddResourceViewController */ = {
+			isa = PBXGroup;
+			children = (
+				57099FA822A01023006792D1 /* AddResourceViewController.swift */,
+				57099FA922A01023006792D1 /* AddResourceViewController.xib */,
+			);
+			path = AddResourceViewController;
+			sourceTree = "<group>";
+		};
 		57AEAE18229AC142009D9C29 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -87,11 +132,10 @@
 		AC91F3632283975C009708AD /* DeadLock */ = {
 			isa = PBXGroup;
 			children = (
+				57099FA422A00FD5006792D1 /* Controllers */,
 				57AEAE18229AC142009D9C29 /* Views */,
 				AC7C9B222284933C0007D796 /* Algorithm */,
 				AC91F3642283975C009708AD /* AppDelegate.swift */,
-				AC91F3662283975C009708AD /* ViewController.swift */,
-				57AEAE16229ABFA1009D9C29 /* ViewControillerInterface.swift */,
 				AC91F36822839760009708AD /* Assets.xcassets */,
 				AC91F36A22839760009708AD /* Main.storyboard */,
 				AC91F36D22839760009708AD /* Info.plist */,
@@ -158,7 +202,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57099FA322A00FD0006792D1 /* AddProcessViewController.xib in Resources */,
 				AC91F36922839760009708AD /* Assets.xcassets in Resources */,
+				57099FAB22A01023006792D1 /* AddResourceViewController.xib in Resources */,
 				AC91F36C22839760009708AD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57099FA222A00FD0006792D1 /* AddProcessViewController.swift in Sources */,
 				57AEAE1A229AC2A5009D9C29 /* ProcessView.swift in Sources */,
 				AC91F3672283975C009708AD /* ViewController.swift in Sources */,
 				57AEAE1C229AC2C5009D9C29 /* ResourceView.swift in Sources */,
@@ -177,6 +224,7 @@
 				ACDCEDEE2285DFF800517ADB /* Resouce.swift in Sources */,
 				ACDCEDF42285E0E200517ADB /* GetTime.swift in Sources */,
 				ACDCEDF22285E09800517ADB /* SO.swift in Sources */,
+				57099FAA22A01023006792D1 /* AddResourceViewController.swift in Sources */,
 				57AEAE17229ABFA1009D9C29 /* ViewControillerInterface.swift in Sources */,
 				ACDCEDF02285E04800517ADB /* Process.swift in Sources */,
 			);
