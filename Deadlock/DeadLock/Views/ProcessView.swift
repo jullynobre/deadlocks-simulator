@@ -18,7 +18,6 @@ class ProcessView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
-		self.layer?.backgroundColor = .init(red: 58/255, green: 58/255, blue: 58/255, alpha: 0.7)
 		self.layer?.cornerRadius = 5
 		
 		self.idLabel.backgroundColor = .clear
@@ -35,6 +34,10 @@ class ProcessView: NSView {
 		self.tuLabel.backgroundColor = .clear
 		self.addSubview(tuLabel)
 		
+		self.addSubview(loadImage)
+		
+		self.setHiddenAtributes(isHidden: true)
+		
 		self.loadImage.image = NSImage(named: NSImage.Name("processImage"))
 		
     }
@@ -44,8 +47,38 @@ class ProcessView: NSView {
 		self.tsLabel.string = "Ts = \(ts)"
 		self.tuLabel.string = "Tu = \(tu)"
 		
-		self.addSubview(loadImage)
-		self.layer?.backgroundColor = .init(red: 84/255, green: 84/255, blue: 84/255, alpha: 0.7)
+		self.addClickGesture()
+		
+		self.setHiddenAtributes(isHidden: false)
+	}
+	
+	
+	
+	func addClickGesture() {
+		let gesture = NSClickGestureRecognizer(target: self, action: Selector(("didClick")))
+		self.addGestureRecognizer(gesture)
+	}
+	
+	@objc
+	func didClick() {
+		let confirmKill = NSAlert()
+		confirmKill.messageText = "Matar processo \(self.idLabel.string)"
+		confirmKill.informativeText = "Você deseja realmente matar esse processo? Esta é uma ação irreversível."
+		confirmKill.addButton(withTitle: "Cancel")
+		confirmKill.addButton(withTitle: "Matar")
+		confirmKill.alertStyle = .critical
+		
+		
+		switch confirmKill.runModal() {
+		case NSApplication.ModalResponse.alertFirstButtonReturn:
+			print("Did Tap Cancel")
+		case NSApplication.ModalResponse.alertSecondButtonReturn:
+			print("Did Tap Kill")
+			self.setHiddenAtributes(isHidden: true)
+			
+		default:
+			print("Unavailable option")
+		}
 	}
 	
 	func runImageAnimation() {
@@ -54,5 +87,16 @@ class ProcessView: NSView {
 	
 	func stopImageAnimation() {
 		//Stop gif
+	}
+	
+	func setHiddenAtributes(isHidden: Bool) {
+		self.idLabel.isHidden = isHidden
+		self.loadImage.isHidden = isHidden
+		self.tsLabel.isHidden = isHidden
+		self.tuLabel.isHidden = isHidden
+		
+		let activatedColor = CGColor.init(red: 84/255, green: 84/255, blue: 84/255, alpha: 0.7)
+		let hiddenColor = CGColor.init(red: 58/255, green: 58/255, blue: 58/255, alpha: 0.7)
+		self.layer?.backgroundColor = isHidden ? hiddenColor : activatedColor
 	}
 }
