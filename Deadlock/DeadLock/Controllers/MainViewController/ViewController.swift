@@ -48,11 +48,15 @@ class ViewController: NSViewController {
 	}
 	
 	@IBAction func didTapNewProcessButton(_ sender: Any) {
-		self.presentAsSheet(AddProcessViewController())
+		//if self.processesViews.count < 15 {
+			self.presentAsSheet(AddProcessViewController())
+		//}
 	}
 	
 	@IBAction func didTapNewResourceButton(_ sender: Any) {
-		self.presentAsSheet(AddResourceViewController())
+		//if self.resourcesViews.count < 10 {
+			self.presentAsSheet(AddResourceViewController())
+		//
 	}
 }
 

@@ -7,6 +7,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AddProcessViewController" customModule="DeadLock" customModuleProvider="target">
             <connections>
+                <outlet property="processIdTextField" destination="uBH-j0-aaq" id="2jw-wa-kmV"/>
+                <outlet property="processTsTextField" destination="ekX-Dt-klb" id="8qV-2m-g5I"/>
+                <outlet property="processTuTextField" destination="cJq-qv-O8n" id="vaG-J6-LeX"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
