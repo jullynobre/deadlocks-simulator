@@ -33,7 +33,16 @@ class ViewController: NSViewController {
         didSet {
         // Update the view, if already loaded.
         }
-    }
+	}
+	
+	@IBAction func didTapNewProcessButton(_ sender: Any) {
+		print("Tap - new process")
+		self.presentAsSheet(AddProcessViewController())
+	}
+	
+	@IBAction func didTapNewResourceButton(_ sender: Any) {
+		print("Tap - new resource")
+	}
 }
 
 extension SO {
