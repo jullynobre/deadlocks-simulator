@@ -16,9 +16,12 @@ class SO {
     let resourcesTable: [Int: Resource]
     var isWatching = true
     
-    init(resourcesTable: [Int: Resource], processes: [Int: Process]) {
+    let viewController: ViewController
+    
+    init(resourcesTable: [Int: Resource], processes: [Int: Process], viewController: ViewController) {
         self.processes = processes
         self.resourcesTable = resourcesTable
+        self.viewController = viewController
     }
     
     func alocationMatrix() -> [Int: [Int: Int]] {
@@ -61,7 +64,7 @@ class SO {
         queue.async {
             while (self.isWatching) {
                 sleep(refreshTime)
-                self.printLocatedReasorces()
+//                self.printLocatedReasorces()
                 if (self.hasDeadLock()) {
                     self.onDeadLock(self)
                 }
@@ -82,9 +85,14 @@ class SO {
     }
     
     var onDeadLock: ((SO) -> Void) = {(self) in
-        print("DeadLock !!!")
-        for p in self.processes {
-            print("\(p.key) -> \(p.value.acquiredResoucesCount)")
+        self.say("DeadLock !!!")
+    }
+    
+    func say (_ messenge: String) {
+        let m = "\(getTime()) - SO: \(messenge)\n\n"
+        print(m)
+        DispatchQueue.main.async {
+            self.viewController.consoleScrollView.documentView!.insertText(m)
         }
     }
 }

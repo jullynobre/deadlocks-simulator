@@ -22,12 +22,15 @@ class Process: Thread {
     
     var isAlive: Bool = true
     
-    init(id: Int, ts: Double, tu: Double, resourcesTable: [Int: Resource]) {
+    let viewController: ViewController
+    
+    init(id: Int, ts: Double, tu: Double, resourcesTable: [Int: Resource], viewController: ViewController) {
         self.id = id
         self.ts = ts
         self.tu = tu
         self.resourcesTable = resourcesTable
         self.acquiredResoucesCount = resourcesTable.mapValues({_ in 0})
+        self.viewController = viewController
     }
     
     func hasResouces() -> Bool {
@@ -44,7 +47,7 @@ class Process: Thread {
         }
         
         if (elegibleReasorces.count == 0) {
-            say(self, "Não há mais recursos para requisitar!!!\n")
+            say("Não há mais recursos para requisitar!!!\n")
             Thread.sleep(forTimeInterval: 5.0)
             return chooseResouce()
         } else {
@@ -52,8 +55,12 @@ class Process: Thread {
         }
     }
     
-    var say = {(self: Process, messenge: String) in
-//        print("\(getTime()) - \(self.id): \(messenge)\n")
+    func say(_ messenge: String) {
+        let m = "\(getTime()) - P. \(self.id): \(messenge)\n\n"
+        print(m)
+        DispatchQueue.main.async {
+            self.viewController.consoleScrollView.documentView!.insertText(m)
+        }
     }
     
     func store(resouceId: Int) {
@@ -92,18 +99,18 @@ class Process: Thread {
             
             // Give back resouce
             if (timeToEndConsume == 0.0 && self.hasResouces()) {
-                self.say(self, "released \(self.resourcesTable[self.resoucersHistory[0]]!.name)")
+                self.say("Liberando \(self.resourcesTable[self.resoucersHistory[0]]!.name)")
                 self.removeOldest()
             }
             // Ask Resouce
             if (timeToAsk == 0.0) {
                 self.disiredResource = self.chooseResouce()
                 
-                self.say(self, "trying to get \(self.resourcesTable[self.disiredResource!]!.name)")
+                self.say("Requisitando \(self.resourcesTable[self.disiredResource!]!.name)")
                 
                 self.resourcesTable[self.disiredResource!]!.give(processId: self.id)
                 
-                self.say(self, "got \(self.resourcesTable[self.disiredResource!]!.name)")
+                self.say("Adquirido \(self.resourcesTable[self.disiredResource!]!.name)")
                 
                 self.store(resouceId: self.disiredResource!)
                 
