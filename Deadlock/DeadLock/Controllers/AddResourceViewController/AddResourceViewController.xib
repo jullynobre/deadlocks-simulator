@@ -7,6 +7,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AddResourceViewController" customModule="DeadLock" customModuleProvider="target">
             <connections>
+                <outlet property="resourceIdTextField" destination="hie-2u-mcC" id="fgl-RX-73s"/>
+                <outlet property="resourceNameTextField" destination="d7t-nA-mvL" id="hAo-BB-RV6"/>
+                <outlet property="resourcesQttyTextField" destination="OtT-EP-abH" id="ToN-3l-d30"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
