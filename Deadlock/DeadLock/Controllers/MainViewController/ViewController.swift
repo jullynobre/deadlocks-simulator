@@ -23,20 +23,14 @@ class ViewController: NSViewController {
 	var processesViews: [NSView] = []
 	var resourcesViews: [NSView] = []
 	
+	var resources: [Int : Resource] = [:]
+	var processes: [Int : Process] = [:]
+	var so: SO?
+	
 	override func viewDidLoad() {
         super.viewDidLoad()
         
-        let resouces = [1: Resource(name: "Impressora", quantity: 3), 2: Resource(name: "Plotter", quantity: 2)]
-        let processes = [1: Process(id: 1, ts: 2.0, tu: 5.0, resourcesTable: resouces, viewController: self),
-                         2: Process(id: 2, ts: 2.0, tu: 5.0, resourcesTable: resouces, viewController: self)]
-        
-        let so = SO(resourcesTable: resouces, processes: processes, viewController: self)
-        
-        so.watchProcesses(refreshTime: 3)
-        
-        for p in processes {
-            p.value.start()
-        }
+		self.so = SO(resourcesTable: self.resources, processes: self.processes, viewController: self)
 		
 		setupInterface()
 	}
