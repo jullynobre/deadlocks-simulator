@@ -15,4 +15,10 @@ class AddResourceViewController: NSViewController {
         // Do view setup here.
     }
     
+	@IBAction func didTapCancelButton(_ sender: Any) {
+		self.dismiss(nil)
+	}
+	
+	@IBAction func didTapSaveButton(_ sender: Any) {
+	}
 }
