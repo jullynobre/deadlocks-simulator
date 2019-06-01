@@ -126,4 +126,9 @@ class Process: Thread {
             self.removeOldest()
         }
     }
+    
+    func addResouce(resouceId: Int, resouce: Resource) {
+        resourcesTable[resouceId] = resouce
+        acquiredResoucesCount[resouceId] = 0
+    }
 }

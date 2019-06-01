@@ -13,7 +13,7 @@ class SO {
     
     var processes: [Int: Process]
     var killedProcesses: [Int] = []
-    let resourcesTable: [Int: Resource]
+    var resourcesTable: [Int: Resource]
     var isWatching = true
     
     let viewController: ViewController
@@ -94,5 +94,18 @@ class SO {
         DispatchQueue.main.async {
             self.viewController.consoleScrollView.documentView!.insertText(m)
         }
+    }
+    
+    func addResouce (resouceId: Int, resouce: Resource) {
+        resourcesTable[resouceId] = resouce
+        
+        for p in processes.values {
+            p.addResouce(resouceId: resouceId, resouce: resouce)
+        }
+    }
+    
+    func addProcess (processId: Int, process: Process) {
+        processes[processId] = process
+        process.start()
     }
 }
