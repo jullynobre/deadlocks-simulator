@@ -22,11 +22,14 @@ class Resource {
     var simalatingGive: Bool = false
     var canPickFalseReasouce: Int?
     
-    init (name: String, quantity: Int) {
+    let view: ResourceView
+    
+    init (name: String, quantity: Int, view: ResourceView) {
         self.name = name
         self.quantitySemaphore = DispatchSemaphore(value: quantity)
         self.quantity = quantity
         self.maxQuantity = quantity
+        self.view = view
     }
     
     func give(processId: Int) {
@@ -41,6 +44,10 @@ class Resource {
         mutex.wait()
         quantity -= 1
         mutex.signal()
+        
+        DispatchQueue.main.async {
+            self.view.updateAvailableLabel(newValue: String(self.quantity))
+        }
     }
     
     func retrive() {
@@ -49,5 +56,9 @@ class Resource {
         mutex.wait()
         quantity += 1
         mutex.signal()
+        
+        DispatchQueue.main.async {
+            self.view.updateAvailableLabel(newValue: String(self.quantity))
+        }
     }
 }
