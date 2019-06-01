@@ -22,15 +22,14 @@ class ViewController: NSViewController {
 	
 	var processesViews: [NSView] = []
 	var resourcesViews: [NSView] = []
-	
-	var resources: [Int : Resource] = [:]
-	var processes: [Int : Process] = [:]
+
 	var so: SO?
+    
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
         
-		self.so = SO(resourcesTable: self.resources, processes: self.processes, viewController: self)
+        self.so = SO(resourcesTable: [:], processes: [:], viewController: self)
 		
 		setupInterface()
 	}
@@ -60,11 +59,13 @@ class ViewController: NSViewController {
 
 extension ViewController: AddProcessDelegate, AddResourceDelegate {
 	func didAddedProcess(_ sender: AddProcessViewController, processId: Int, processTs: Int, processTu: Int) {
-		print("Add process \(processId)")
+        let newProcess = Process(id: processId, ts: Double(processTs), tu: Double(processTu), resourcesTable: so!.resourcesTable, viewController: self)
+        so!.addProcess(processId: processId, process: newProcess)
 	}
 	
 	func didAddedResource(_ sender: AddResourceViewController, resourceId: Int, resourceName: String, resourceQttyInstances: Int) {
-		print("Add resource \(resourceName)")
+        let newResouce = Resource(name: resourceName, quantity: resourceQttyInstances)
+        so!.addResouce(resouceId: resourceId, resouce: newResouce)
 	}
 }
 
