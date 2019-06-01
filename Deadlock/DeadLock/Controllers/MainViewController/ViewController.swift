@@ -20,8 +20,8 @@ class ViewController: NSViewController {
 	var resourcesIdLabels: [NSTextField] = []
 	var processesArrayLabels: [NSTextField] = []
 	
-	var processesViews: [NSView] = []
-	var resourcesViews: [NSView] = []
+	var processesViews: [ProcessView] = []
+	var resourcesViews: [ResourceView] = []
 
 	var so: SO?
     
@@ -61,11 +61,17 @@ extension ViewController: AddProcessDelegate, AddResourceDelegate {
 	func didAddedProcess(_ sender: AddProcessViewController, processId: Int, processTs: Int, processTu: Int) {
         let newProcess = Process(id: processId, ts: Double(processTs), tu: Double(processTu), resourcesTable: so!.resourcesTable, viewController: self)
         so!.addProcess(processId: processId, process: newProcess)
+        
+        let processView = self.processesViews[processId]
+        processView.activateProcess(id: processId, ts: processTs, tu: processTu)
 	}
 	
 	func didAddedResource(_ sender: AddResourceViewController, resourceId: Int, resourceName: String, resourceQttyInstances: Int) {
-        let newResouce = Resource(name: resourceName, quantity: resourceQttyInstances)
+        let resouceView = resourcesViews[resourceId]
+        let newResouce = Resource(name: resourceName, quantity: resourceQttyInstances, view: resouceView)
         so!.addResouce(resouceId: resourceId, resouce: newResouce)
+        
+        resouceView.activateResource(id: resourceId, quantity: resourceQttyInstances, available: resourceQttyInstances, name: resourceName)
 	}
 }
 
