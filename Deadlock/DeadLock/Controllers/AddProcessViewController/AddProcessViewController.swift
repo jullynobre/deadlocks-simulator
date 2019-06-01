@@ -8,7 +8,7 @@
 
 import Cocoa
 
-protocol ProcessAdded: class {
+protocol AddProcessDelegate: class {
 	func didAddedProcess(_ sender: AddProcessViewController,
 						 processId: Int,
 						 processTs: Int,
@@ -21,7 +21,7 @@ class AddProcessViewController: NSViewController {
 	@IBOutlet weak var processTuTextField: NSTextField!
 	@IBOutlet weak var processTsTextField: NSTextField!
 	
-	weak var delegate: ProcessAdded?
+	weak var delegate: AddProcessDelegate?
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
