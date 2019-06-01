@@ -43,14 +43,28 @@ class ViewController: NSViewController {
 	
 	@IBAction func didTapNewProcessButton(_ sender: Any) {
 		//if self.processesViews.count < 15 {
-			self.presentAsSheet(AddProcessViewController())
+		let addProcessVC = AddProcessViewController()
+		addProcessVC.delegate = self
+		self.presentAsSheet(addProcessVC)
 		//}
 	}
 	
 	@IBAction func didTapNewResourceButton(_ sender: Any) {
 		//if self.resourcesViews.count < 10 {
-			self.presentAsSheet(AddResourceViewController())
+		let addResourceVC = AddResourceViewController()
+		addResourceVC.delegate = self
+		self.presentAsSheet(addResourceVC)
 		//
+	}
+}
+
+extension ViewController: AddProcessDelegate, AddResourceDelegate {
+	func didAddedProcess(_ sender: AddProcessViewController, processId: Int, processTs: Int, processTu: Int) {
+		print("Add process \(processId)")
+	}
+	
+	func didAddedResource(_ sender: AddResourceViewController, resourceId: Int, resourceName: String, resourceQttyInstances: Int) {
+		print("Add resource \(resourceName)")
 	}
 }
 

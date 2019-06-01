@@ -8,7 +8,7 @@
 
 import Cocoa
 
-protocol ResourceAdded: class {
+protocol AddResourceDelegate: class {
 	func didAddedResource(_ sender: AddResourceViewController,
 						 resourceId: Int,
 						 resourceName: String,
@@ -21,7 +21,7 @@ class AddResourceViewController: NSViewController {
 	@IBOutlet weak var resourceNameTextField: NSTextField!
 	@IBOutlet weak var resourcesQttyTextField: NSTextField!
 	
-	weak var delegate: ResourceAdded?
+	weak var delegate: AddResourceDelegate?
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
