@@ -15,10 +15,10 @@ class ViewController: NSViewController {
 	@IBOutlet weak var consoleScrollView: NSScrollView!
 	@IBOutlet weak var consoleBgView: NSView!
 	
-	var matrixLabels: [[NSTextField]] = [[]]
-	var processesIdLabels: [NSTextField] = []
+	var acquiredResoucesLabels: [[NSTextField]] = [[]]
 	var resourcesIdLabels: [NSTextField] = []
-	var processesArrayLabels: [NSTextField] = []
+	var processesIdLabels: [NSTextField] = []
+	var wantedResourcesLabels: [NSTextField] = []
 	
 	var processesViews: [ProcessView] = []
 	var resourcesViews: [ResourceView] = []
@@ -27,9 +27,9 @@ class ViewController: NSViewController {
     
 	
 	override func viewDidLoad() {
-        super.viewDidLoad()
+     super.viewDidLoad()
 		
-		setupInterface()
+	   setupInterface()
 	}
 	
 	override func viewDidAppear() {
@@ -69,11 +69,8 @@ extension ViewController: AddProcessDelegate, AddResourceDelegate, SetUpSODelega
 	}
 	
 	func didAddedProcess(_ sender: AddProcessViewController, processId: Int, processTs: Int, processTu: Int) {
-        let newProcess = Process(id: processId, ts: Double(processTs), tu: Double(processTu), resourcesTable: so!.resourcesTable, viewController: self)
+        let newProcess = Process(id: processId, ts: Double(processTs), tu: Double(processTu), resourcesTable: so!.resourcesTable, view: self)
         so!.addProcess(processId: processId, process: newProcess)
-        
-        let processView = self.processesViews[processId]
-        processView.activateProcess(id: processId, ts: processTs, tu: processTu)
 	}
 	
 	func didAddedResource(_ sender: AddResourceViewController, resourceId: Int, resourceName: String, resourceQttyInstances: Int) {
