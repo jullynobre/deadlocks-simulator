@@ -27,11 +27,15 @@ class ViewController: NSViewController {
     
 	
 	override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.so = SO(resourcesTable: [:], processes: [:], view: self)
+     super.viewDidLoad()
 		
-		setupInterface()
+	   setupInterface()
+	}
+	
+	override func viewDidAppear() {
+		let setUpSOVC = SetUpSOViewController()
+		setUpSOVC.delegate = self
+		self.presentAsSheet(setUpSOVC)
 	}
 	
     override var representedObject: Any? {
@@ -57,7 +61,13 @@ class ViewController: NSViewController {
 	}
 }
 
-extension ViewController: AddProcessDelegate, AddResourceDelegate {
+extension ViewController: AddProcessDelegate, AddResourceDelegate, SetUpSODelegate {
+	func didSetUpSO(_ sender: SetUpSOViewController, refreshTime: Int) {
+		self.so = SO(resourcesTable: [:], processes: [:], viewController: self)
+		self.so?.watchProcesses(refreshTime: UInt32(refreshTime))
+		print("RefreshTime \(refreshTime)")
+	}
+	
 	func didAddedProcess(_ sender: AddProcessViewController, processId: Int, processTs: Int, processTu: Int) {
         let newProcess = Process(id: processId, ts: Double(processTs), tu: Double(processTu), resourcesTable: so!.resourcesTable, view: self)
         so!.addProcess(processId: processId, process: newProcess)
@@ -70,6 +80,8 @@ extension ViewController: AddProcessDelegate, AddResourceDelegate {
         
         resouceView.activateResource(id: resourceId, quantity: resourceQttyInstances, available: resourceQttyInstances, name: resourceName)
 	}
+	
+	
 }
 
 extension SO {
