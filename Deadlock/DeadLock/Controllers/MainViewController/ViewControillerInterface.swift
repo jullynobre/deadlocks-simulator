@@ -85,11 +85,10 @@ extension ViewController {
 	func createLabel(x: Int, y: Int, width: Int, heigth: Int) -> NSTextField {
 		let label = NSTextField()
 		label.frame = CGRect(x: x, y: y, width: width, height: heigth)
-		label.stringValue = "--"
 		label.isBezeled = false
 		label.isEditable = false
 		label.backgroundColor = NSColor(calibratedWhite: 0.0, alpha: 0.0)
-		label.textColor = NSColor(calibratedWhite: 0.5, alpha: 0.5)
+		label.deactivate()
 		self.view.addSubview(label)
 		
 		return label
