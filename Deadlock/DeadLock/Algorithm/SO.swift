@@ -16,12 +16,12 @@ class SO {
     var resourcesTable: [Int: Resource]
     var isWatching = true
     
-    let viewController: ViewController
+    let view: ViewController
     
-    init(resourcesTable: [Int: Resource], processes: [Int: Process], viewController: ViewController) {
+    init(resourcesTable: [Int: Resource], processes: [Int: Process], view: ViewController) {
         self.processes = processes
         self.resourcesTable = resourcesTable
-        self.viewController = viewController
+        self.view = view
     }
     
     func alocationMatrix() -> [Int: [Int: Int]] {
@@ -92,7 +92,7 @@ class SO {
         let m = "\(getTime()) - SO: \(messenge)\n\n"
         print(m)
         DispatchQueue.main.async {
-            self.viewController.consoleScrollView.documentView!.insertText(m)
+            self.view.consoleScrollView.documentView!.insertText(m)
         }
     }
     
@@ -101,6 +101,11 @@ class SO {
         
         for p in processes.values {
             p.addResouce(resouceId: resouceId, resouce: resouce)
+        }
+        view.resourcesIdLabels[resouceId].activate(resouceId)
+        
+        for processId in processes.keys {
+            view.acquiredResoucesLabels[processId][resouceId].activate(0)
         }
     }
     

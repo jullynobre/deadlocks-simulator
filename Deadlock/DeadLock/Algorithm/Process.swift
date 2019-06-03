@@ -22,15 +22,24 @@ class Process: Thread {
     
     var isAlive: Bool = true
     
-    let viewController: ViewController
+    let view: ViewController
     
-    init(id: Int, ts: Double, tu: Double, resourcesTable: [Int: Resource], viewController: ViewController) {
+    init(id: Int, ts: Double, tu: Double, resourcesTable: [Int: Resource], view: ViewController) {
         self.id = id
         self.ts = ts
         self.tu = tu
         self.resourcesTable = resourcesTable
         self.acquiredResoucesCount = resourcesTable.mapValues({_ in 0})
-        self.viewController = viewController
+        self.view = view
+        
+        let processView = self.view.processesViews[id]
+        processView.activateProcess(id: id, ts: Int(ts), tu: Int(tu))
+        
+        view.processesIdLabels[id].activate(id)
+        
+        for resouce in acquiredResoucesCount.keys {
+            view.acquiredResoucesLabels[id][resouce].activate(0)
+        }
     }
     
     func hasResouces() -> Bool {
@@ -51,6 +60,10 @@ class Process: Thread {
             Thread.sleep(forTimeInterval: 5.0)
             return chooseResouce()
         } else {
+            let r = elegibleReasorces.randomElement()!
+            DispatchQueue.main.async {
+                self.view.wantedResourcesLabels[self.id].activate(r)
+            }
             return elegibleReasorces.randomElement()!
         }
     }
@@ -59,7 +72,7 @@ class Process: Thread {
         let m = "\(getTime()) - P. \(self.id): \(messenge)\n\n"
         print(m)
         DispatchQueue.main.async {
-            self.viewController.consoleScrollView.documentView!.insertText(m)
+            self.view.consoleScrollView.documentView!.insertText(m)
         }
     }
     
@@ -67,6 +80,10 @@ class Process: Thread {
         resoucersHistory.append(resouceId)
         let resCount = acquiredResoucesCount[resouceId] ?? 0
         acquiredResoucesCount[resouceId] = 1 + resCount
+        DispatchQueue.main.async {
+            self.view.wantedResourcesLabels[self.id].deactivate()
+            self.view.acquiredResoucesLabels[self.id][resouceId].activate(self.acquiredResoucesCount[resouceId]!)
+        }
     }
     
     func removeOldest() {
@@ -74,6 +91,9 @@ class Process: Thread {
         resourcesTable[resourceId]!.retrive()
         acquiredResoucesCount[resourceId] = acquiredResoucesCount[resourceId]! - 1
         resoucersHistory.removeFirst()
+        DispatchQueue.main.async {
+            self.view.acquiredResoucesLabels[self.id][resourceId].activate(self.acquiredResoucesCount[resourceId]!)
+        }
     }
     
     override func main() {

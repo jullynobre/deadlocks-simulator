@@ -9,7 +9,8 @@
 import Cocoa
 
 extension NSTextField {
-	func activate(strValue: String) {
+	func activate(_ value: Int) {
+        let strValue = String(value).count < 2 ? "0" + String(value) : String(value)
 		self.stringValue = strValue
 		self.textColor = NSColor(calibratedWhite: 1.0, alpha: 1.0)
 	}

@@ -44,13 +44,13 @@ extension ViewController {
 		let heigth = 17, width = 21, xOrigin = 757, yOrigin = 607, xIncrease = 25, yIncrease = -25
 		
 		for xIndex in 0..<15 {
-			self.matrixLabels.append([])
+			self.acquiredResoucesLabels.append([])
 			for yIndex in 0..<10 {
 				let xPosition = xOrigin + xIncrease * xIndex
 				let yPosition = yOrigin + yIncrease * yIndex
 				
 				let label = self.createLabel(x: xPosition, y: yPosition, width: width, heigth: heigth)
-				self.matrixLabels[xIndex].append(label)
+				self.acquiredResoucesLabels[xIndex].append(label)
 			}
 		}
 	}
@@ -60,7 +60,7 @@ extension ViewController {
 		
 		for labelIndex in 0..<10 {
 			let yPosition = yOrigin + yIncrease * labelIndex
-			self.processesIdLabels.append(self.createLabel(x: xPosition, y: yPosition, width: width, heigth: heigth))
+			self.resourcesIdLabels.append(self.createLabel(x: xPosition, y: yPosition, width: width, heigth: heigth))
 		}
 	}
 	
@@ -69,7 +69,7 @@ extension ViewController {
 		
 		for labelIndex in 0..<15 {
 			let xPosition = xOrigin + xIncrease * labelIndex
-			self.resourcesIdLabels.append(self.createLabel(x: xPosition, y: yPosition, width: width, heigth: height))
+			self.processesIdLabels.append(self.createLabel(x: xPosition, y: yPosition, width: width, heigth: height))
 		}
 	}
 	
@@ -78,7 +78,7 @@ extension ViewController {
 		
 		for labelIndex in 0..<15 {
 			let xPosition = xOrigin + xIncrease * labelIndex
-			self.processesArrayLabels.append(self.createLabel(x: xPosition, y: yPosition, width: width, heigth: height))
+			self.wantedResourcesLabels.append(self.createLabel(x: xPosition, y: yPosition, width: width, heigth: height))
 		}
 	}
 	
