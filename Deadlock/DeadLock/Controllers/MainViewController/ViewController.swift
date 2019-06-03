@@ -63,7 +63,7 @@ class ViewController: NSViewController {
 
 extension ViewController: AddProcessDelegate, AddResourceDelegate, SetUpSODelegate {
 	func didSetUpSO(_ sender: SetUpSOViewController, refreshTime: Int) {
-		self.so = SO(resourcesTable: [:], processes: [:], viewController: self)
+		self.so = SO(resourcesTable: [:], processes: [:], view: self)
 		self.so?.watchProcesses(refreshTime: UInt32(refreshTime))
 		print("RefreshTime \(refreshTime)")
 	}
