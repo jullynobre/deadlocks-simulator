@@ -12,6 +12,8 @@
 		57099FAA22A01023006792D1 /* AddResourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57099FA822A01023006792D1 /* AddResourceViewController.swift */; };
 		57099FAB22A01023006792D1 /* AddResourceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57099FA922A01023006792D1 /* AddResourceViewController.xib */; };
 		57AE52D122A5D2270089E167 /* NSTextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AE52D022A5D2270089E167 /* NSTextFieldExtension.swift */; };
+		57AE52D422A5DB510089E167 /* SetUpSOViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AE52D222A5DB510089E167 /* SetUpSOViewController.swift */; };
+		57AE52D522A5DB510089E167 /* SetUpSOViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57AE52D322A5DB510089E167 /* SetUpSOViewController.xib */; };
 		57AEAE17229ABFA1009D9C29 /* ViewControillerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AEAE16229ABFA1009D9C29 /* ViewControillerInterface.swift */; };
 		57AEAE1A229AC2A5009D9C29 /* ProcessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AEAE19229AC2A5009D9C29 /* ProcessView.swift */; };
 		57AEAE1C229AC2C5009D9C29 /* ResourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AEAE1B229AC2C5009D9C29 /* ResourceView.swift */; };
@@ -31,6 +33,8 @@
 		57099FA822A01023006792D1 /* AddResourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddResourceViewController.swift; sourceTree = "<group>"; };
 		57099FA922A01023006792D1 /* AddResourceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddResourceViewController.xib; sourceTree = "<group>"; };
 		57AE52D022A5D2270089E167 /* NSTextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSTextFieldExtension.swift; sourceTree = "<group>"; };
+		57AE52D222A5DB510089E167 /* SetUpSOViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpSOViewController.swift; sourceTree = "<group>"; };
+		57AE52D322A5DB510089E167 /* SetUpSOViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetUpSOViewController.xib; sourceTree = "<group>"; };
 		57AEAE16229ABFA1009D9C29 /* ViewControillerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControillerInterface.swift; sourceTree = "<group>"; };
 		57AEAE19229AC2A5009D9C29 /* ProcessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessView.swift; sourceTree = "<group>"; };
 		57AEAE1B229AC2C5009D9C29 /* ResourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceView.swift; sourceTree = "<group>"; };
@@ -61,6 +65,7 @@
 		57099FA422A00FD5006792D1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				57AE52D622A5DB540089E167 /* SetUpSOViewController */,
 				57099FA722A0100C006792D1 /* AddResourceViewController */,
 				57099FA622A00FFA006792D1 /* AddProcessViewController */,
 				57099FA522A00FF1006792D1 /* MainViewController */,
@@ -93,6 +98,15 @@
 				57099FA922A01023006792D1 /* AddResourceViewController.xib */,
 			);
 			path = AddResourceViewController;
+			sourceTree = "<group>";
+		};
+		57AE52D622A5DB540089E167 /* SetUpSOViewController */ = {
+			isa = PBXGroup;
+			children = (
+				57AE52D222A5DB510089E167 /* SetUpSOViewController.swift */,
+				57AE52D322A5DB510089E167 /* SetUpSOViewController.xib */,
+			);
+			path = SetUpSOViewController;
 			sourceTree = "<group>";
 		};
 		57AEAE18229AC142009D9C29 /* Views */ = {
@@ -208,6 +222,7 @@
 				57099FA322A00FD0006792D1 /* AddProcessViewController.xib in Resources */,
 				AC91F36922839760009708AD /* Assets.xcassets in Resources */,
 				57099FAB22A01023006792D1 /* AddResourceViewController.xib in Resources */,
+				57AE52D522A5DB510089E167 /* SetUpSOViewController.xib in Resources */,
 				AC91F36C22839760009708AD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,6 +236,7 @@
 			files = (
 				57099FA222A00FD0006792D1 /* AddProcessViewController.swift in Sources */,
 				57AEAE1A229AC2A5009D9C29 /* ProcessView.swift in Sources */,
+				57AE52D422A5DB510089E167 /* SetUpSOViewController.swift in Sources */,
 				AC91F3672283975C009708AD /* ViewController.swift in Sources */,
 				57AEAE1C229AC2C5009D9C29 /* ResourceView.swift in Sources */,
 				57AE52D122A5D2270089E167 /* NSTextFieldExtension.swift in Sources */,
