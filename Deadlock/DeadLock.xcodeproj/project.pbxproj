@@ -11,6 +11,7 @@
 		57099FA322A00FD0006792D1 /* AddProcessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57099FA122A00FD0006792D1 /* AddProcessViewController.xib */; };
 		57099FAA22A01023006792D1 /* AddResourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57099FA822A01023006792D1 /* AddResourceViewController.swift */; };
 		57099FAB22A01023006792D1 /* AddResourceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57099FA922A01023006792D1 /* AddResourceViewController.xib */; };
+		57AE52D122A5D2270089E167 /* NSTextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AE52D022A5D2270089E167 /* NSTextFieldExtension.swift */; };
 		57AEAE17229ABFA1009D9C29 /* ViewControillerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AEAE16229ABFA1009D9C29 /* ViewControillerInterface.swift */; };
 		57AEAE1A229AC2A5009D9C29 /* ProcessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AEAE19229AC2A5009D9C29 /* ProcessView.swift */; };
 		57AEAE1C229AC2C5009D9C29 /* ResourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AEAE1B229AC2C5009D9C29 /* ResourceView.swift */; };
@@ -29,6 +30,7 @@
 		57099FA122A00FD0006792D1 /* AddProcessViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddProcessViewController.xib; sourceTree = "<group>"; };
 		57099FA822A01023006792D1 /* AddResourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddResourceViewController.swift; sourceTree = "<group>"; };
 		57099FA922A01023006792D1 /* AddResourceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddResourceViewController.xib; sourceTree = "<group>"; };
+		57AE52D022A5D2270089E167 /* NSTextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSTextFieldExtension.swift; sourceTree = "<group>"; };
 		57AEAE16229ABFA1009D9C29 /* ViewControillerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControillerInterface.swift; sourceTree = "<group>"; };
 		57AEAE19229AC2A5009D9C29 /* ProcessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessView.swift; sourceTree = "<group>"; };
 		57AEAE1B229AC2C5009D9C29 /* ResourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceView.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				AC91F36A22839760009708AD /* Main.storyboard */,
 				AC91F36D22839760009708AD /* Info.plist */,
 				AC91F36E22839760009708AD /* DeadLock.entitlements */,
+				57AE52D022A5D2270089E167 /* NSTextFieldExtension.swift */,
 			);
 			path = DeadLock;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				57AEAE1A229AC2A5009D9C29 /* ProcessView.swift in Sources */,
 				AC91F3672283975C009708AD /* ViewController.swift in Sources */,
 				57AEAE1C229AC2C5009D9C29 /* ResourceView.swift in Sources */,
+				57AE52D122A5D2270089E167 /* NSTextFieldExtension.swift in Sources */,
 				AC91F3652283975C009708AD /* AppDelegate.swift in Sources */,
 				ACDCEDEE2285DFF800517ADB /* Resouce.swift in Sources */,
 				ACDCEDF42285E0E200517ADB /* GetTime.swift in Sources */,
