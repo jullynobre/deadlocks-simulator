@@ -145,6 +145,14 @@ class Process: Thread {
         for _ in self.resoucersHistory {
             self.removeOldest()
         }
+        
+        view.processesIdLabels[id].deactivate()
+        view.wantedResourcesLabels[id].deactivate()
+        view.processesViews[id].deactivateProcess()
+        
+        for resource in acquiredResoucesCount.keys {
+            view.acquiredResoucesLabels[id][resource].deactivate()
+        }
     }
     
     func addResouce(resouceId: Int, resouce: Resource) {

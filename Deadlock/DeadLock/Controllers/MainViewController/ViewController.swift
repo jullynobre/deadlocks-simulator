@@ -71,6 +71,7 @@ extension ViewController: AddProcessDelegate, AddResourceDelegate, SetUpSODelega
 	func didAddedProcess(_ sender: AddProcessViewController, processId: Int, processTs: Int, processTu: Int) {
         let newProcess = Process(id: processId, ts: Double(processTs), tu: Double(processTu), resourcesTable: so!.resourcesTable, view: self)
         so!.addProcess(processId: processId, process: newProcess)
+        processesViews[processId].process = so?.processes[processId]
 	}
 	
 	func didAddedResource(_ sender: AddResourceViewController, resourceId: Int, resourceName: String, resourceQttyInstances: Int) {
@@ -80,21 +81,4 @@ extension ViewController: AddProcessDelegate, AddResourceDelegate, SetUpSODelega
         
         resouceView.activateResource(id: resourceId, quantity: resourceQttyInstances, available: resourceQttyInstances, name: resourceName)
 	}
-	
-	
-}
-
-extension SO {
-    func killProcessWithMoreResources () {
-        var targetedProcess = processes.values.first!
-        
-        for p in processes.values {
-            if (p.resoucersHistory.count > targetedProcess.resoucersHistory.count) {
-                targetedProcess = p
-            }
-        }
-        
-        print("killing process \(targetedProcess.id)")
-        killProcess(id: targetedProcess.id)
-    }
 }
