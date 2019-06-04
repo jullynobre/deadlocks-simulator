@@ -15,6 +15,8 @@ class ProcessView: NSView {
 	private var tsLabel: NSTextView = NSTextView(frame: NSRect(x: 36, y: 37, width: 60, height: 17))
 	private var tuLabel: NSTextView = NSTextView(frame: NSRect(x: 36, y: 16, width: 60, height: 17))
 	
+	private let gesture = NSClickGestureRecognizer(target: self, action: Selector(("didClick")))
+	
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
@@ -47,16 +49,14 @@ class ProcessView: NSView {
 		self.tsLabel.string = "Ts = \(ts)"
 		self.tuLabel.string = "Tu = \(tu)"
 		
-		self.addClickGesture()
+		self.addGestureRecognizer(self.gesture)
 		
 		self.setHiddenAtributes(isHidden: false)
 	}
 	
-	
-	
-	func addClickGesture() {
-		let gesture = NSClickGestureRecognizer(target: self, action: Selector(("didClick")))
-		self.addGestureRecognizer(gesture)
+	func deactivateProcess() {
+		self.setHiddenAtributes(isHidden: true)
+		self.removeGestureRecognizer(self.gesture)
 	}
 	
 	@objc
@@ -74,8 +74,7 @@ class ProcessView: NSView {
 			print("Did Tap Cancel")
 		case NSApplication.ModalResponse.alertSecondButtonReturn:
 			print("Did Tap Kill")
-			self.setHiddenAtributes(isHidden: true)
-			
+			self.deactivateProcess()
 		default:
 			print("Unavailable option")
 		}
