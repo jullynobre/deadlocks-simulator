@@ -27,7 +27,7 @@ class SO {
     func alocationMatrix() -> [Int: [Int: Int]] {
         var alocationMatrix = [Int: [Int:Int]]()
         for p in processes.keys.sorted(by: <) {
-            alocationMatrix[p] = processes[p]!.acquiredResourcesCount
+            alocationMatrix[p] = processes[p]!.allocatedResourcesCount
         }
         return alocationMatrix
     }
@@ -69,7 +69,7 @@ class SO {
 //        print(blockedProcesses.values.count)
         for i in 0..<blockedProcesses.count {
             let p = Array(blockedProcesses.values)[i]
-            blockedReasouces.append(contentsOf: p.acquiredResourcesCount.compactMap{$0.value > 0 ? $0.key : nil})
+            blockedReasouces.append(contentsOf: p.allocatedResourcesCount.compactMap{$0.value > 0 ? $0.key : nil})
         }
         blockedReasouces = Array(Set(blockedReasouces))
         
@@ -98,8 +98,8 @@ class SO {
         print("+==========================+")
         for p in processes.keys.sorted(by: <) {
             var pMessenge = "\(getTime()) - \(processes[p]!.id): "
-            for r in processes[p]!.acquiredResourcesCount.keys.sorted(by: <) {
-                pMessenge.append("\(r) -> \(processes[p]!.acquiredResourcesCount[r]!) ")
+            for r in processes[p]!.allocatedResourcesCount.keys.sorted(by: <) {
+                pMessenge.append("\(r) -> \(processes[p]!.allocatedResourcesCount[r]!) ")
             }
             pMessenge.append("\(processes[p]!.disiredResource)  \(processes[p]!.isCancelled ? "cancelado" : "")")
             print(pMessenge)

@@ -61,9 +61,7 @@ class Resource {
         quantity += 1
         mutex.signal()
         
-        DispatchQueue.main.async {
-            self.resourceView.updateAvailableLabel(newValue: String(self.quantity))
-        }
+        displayAvalibleReasources(quantity)
     }
     
     func cancelGive (processId: Int) {
@@ -73,4 +71,6 @@ class Resource {
             quantitySemaphore.signal()
         }
     }
+    
+    var displayAvalibleReasources: (_ value: Int) -> Void = {_ in}
 }
