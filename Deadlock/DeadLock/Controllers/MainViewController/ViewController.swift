@@ -19,6 +19,7 @@ class ViewController: NSViewController {
 	var resourcesIdLabels: [NSTextField] = []
 	var processesIdLabels: [NSTextField] = []
 	var wantedResourcesLabels: [NSTextField] = []
+	var availableResourcesLabels: [NSTextField] = []
 	
 	var processesViews: [ProcessView] = []
 	var resourcesViews: [ResourceView] = []
