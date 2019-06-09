@@ -126,9 +126,9 @@ class Process: Thread {
         allocatedResourcesCount[resouceId] = 0
     }
     
-    var displayWantedResource: (_ resource: Resource?) -> Void = {_ in}
-    var displayLog: (_ log: String) -> Void = {_ in}
-    var displayAllocatedResouceCount: (_ count: Int) -> Void = {_ in}
+    var displayWantedResource: (Resource?) -> Void = {_ in}
+    var displayLog: (String) -> Void = {_ in}
+    var displayAllocatedResouceCount: (Int) -> Void = {_ in}
     var displayEndProcess: () -> Void = {}
 }
 

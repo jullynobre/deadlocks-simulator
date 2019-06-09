@@ -72,5 +72,5 @@ class Resource {
         }
     }
     
-    var displayAvalibleReasources: (_ value: Int) -> Void = {_ in}
+    var displayAvalibleReasources: (Int) -> Void = {_ in}
 }

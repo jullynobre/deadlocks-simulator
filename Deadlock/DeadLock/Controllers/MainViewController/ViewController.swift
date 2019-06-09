@@ -82,7 +82,7 @@ extension ViewController: AddProcessDelegate, AddResourceDelegate, SetUpSODelega
 	func didAddedResource(_ sender: AddResourceViewController, resourceId: Int, resourceName: String, resourceQttyInstances: Int) {
         let resouceView = resourcesViews[resourceId]
         let newResouce = Resource(name: resourceName, quantity: resourceQttyInstances, view: resouceView)
-        so!.addResouce(resouceId: resourceId, resouce: newResouce)
+        so!.registerResouce(resouceId: resourceId, resouce: newResouce)
         
         resouceView.activateResource(id: resourceId, quantity: resourceQttyInstances, available: resourceQttyInstances, name: resourceName)
 	}
