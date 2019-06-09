@@ -122,7 +122,7 @@ class SO {
         resourcesTable[resouceId] = resouce
         
         for p in processes.values {
-            p.addResouce(resouceId: resouceId, resouce: resouce)
+            p.registerResouce(resouceId: resouceId, resouce: resouce)
         }
         view.resourcesIdLabels[resouceId].activate(resouceId)
         

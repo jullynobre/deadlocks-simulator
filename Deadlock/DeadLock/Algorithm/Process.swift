@@ -21,24 +21,12 @@ class Process: Thread {
     
     var consumeCounters: [ConsumeCounter] = []
     
-    let viewController: ViewController
-    
-    init(id: Int, ts: Double, tu: Double, resources: [Int: Resource], viewController: ViewController) {
+    init(id: Int, ts: Double, tu: Double, resources: [Int: Resource]) {
         self.id = id
         self.ts = ts
         self.tu = tu
         self.resources = resources
         self.allocatedResourcesCount = resources.mapValues({_ in 0})
-        self.viewController = viewController
-        
-        // setup view elements
-        let processView = self.viewController.processesViews[id]
-        processView.activateProcess(id: id, ts: Int(ts), tu: Int(tu))
-        
-        viewController.processesIdLabels[id].activate(id)
-        for resouce in allocatedResourcesCount.keys {
-            viewController.acquiredResoucesLabels[id][resouce].activate(0)
-        }
     }
     
     func chooseResouce() -> Int {
@@ -51,23 +39,13 @@ class Process: Thread {
         }
         
         if (elegibleReasorces.count == 0) {
-            say("Não há mais recursos para requisitar!!!\n")
+            displayLog("Não há mais recursos para requisitar!!!\n")
             Thread.sleep(forTimeInterval: 5.0)
             return chooseResouce()
         } else {
             let r = elegibleReasorces.randomElement()!
-            DispatchQueue.main.async {
-                self.viewController.wantedResourcesLabels[self.id].activate(r)
-            }
+            displayWantedResource(resources[r])
             return r
-        }
-    }
-    
-    func say(_ messenge: String) {
-        let m = "\(getTime()) - P. \(self.id): \(messenge)\n\n"
-        print(m)
-        DispatchQueue.main.async {
-            self.viewController.consoleScrollView.documentView!.insertText(m)
         }
     }
     
@@ -75,10 +53,9 @@ class Process: Thread {
         let resCount = allocatedResourcesCount[resouceId] ?? 0
         allocatedResourcesCount[resouceId] = 1 + resCount
         consumeCounters.append(ConsumeCounter(resouceId: resouceId, remaningTime: tu))
-        DispatchQueue.main.async {
-            self.viewController.wantedResourcesLabels[self.id].deactivate()
-            self.viewController.acquiredResoucesLabels[self.id][resouceId].activate(self.allocatedResourcesCount[resouceId]!)
-        }
+        
+        displayWantedResource(nil)
+        displayAllocatedResouceCount(allocatedResourcesCount[resouceId]!)
     }
     
     func retrive(resourceId: Int) {
@@ -90,10 +67,8 @@ class Process: Thread {
         
         resources[resourceId]?.retrive()
         
-        self.say("Liberando \(self.resources[resourceId]!.name)")
-        DispatchQueue.main.async {
-            self.viewController.acquiredResoucesLabels[self.id][resourceId].activate(self.allocatedResourcesCount[resourceId]!)
-        }
+        displayLog("Liberando \(resources[resourceId]!.name)")
+        displayAllocatedResouceCount(allocatedResourcesCount[resourceId]!)
     }
     
     override func main() {
@@ -126,43 +101,35 @@ class Process: Thread {
             // Ask Resouce
             if (timeToAsk == 0.0) {
                 self.disiredResource = self.chooseResouce()
-                
-                self.say("Requisitando \(self.resources[self.disiredResource!]!.name)")
+                self.displayLog("Requisitando \(self.resources[self.disiredResource!]!.name)")
                 
                 self.resources[self.disiredResource!]!.give(processId: self.id)
                 
-                self.say("Adquirido \(self.resources[self.disiredResource!]!.name)")
-                
+                self.displayLog("Adquirido \(self.resources[self.disiredResource!]!.name)")
                 self.store(resouceId: self.disiredResource!)
-                
                 self.disiredResource = nil
             }
             
             // Reset ask counter
             timeToAsk = timeToAsk == 0.0 ? self.ts : timeToAsk
         }
-        
+        // Finishing Process
         for i in self.consumeCounters.indices {
             let resourceId = consumeCounters[i].resouceId
             resources[resourceId]?.retrive()
         }
-        DispatchQueue.main.async {
-            self.viewController.processesIdLabels[self.id].deactivate()
-            self.viewController.wantedResourcesLabels[self.id].deactivate()
-            self.viewController.processesViews[self.id].deactivateProcess()
-        }
-        
-        for resource in allocatedResourcesCount.keys {
-            viewController.acquiredResoucesLabels[id][resource].deactivate()
-        }
+        displayEndProcess()
     }
     
-    func addResouce(resouceId: Int, resouce: Resource) {
+    func registerResouce(resouceId: Int, resouce: Resource) {
         resources[resouceId] = resouce
         allocatedResourcesCount[resouceId] = 0
     }
     
-    var 
+    var displayWantedResource: (_ resource: Resource?) -> Void = {_ in}
+    var displayLog: (_ log: String) -> Void = {_ in}
+    var displayAllocatedResouceCount: (_ count: Int) -> Void = {_ in}
+    var displayEndProcess: () -> Void = {}
 }
 
 
