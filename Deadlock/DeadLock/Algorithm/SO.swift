@@ -27,7 +27,7 @@ class SO {
     func alocationMatrix() -> [Int: [Int: Int]] {
         var alocationMatrix = [Int: [Int:Int]]()
         for p in processes.keys.sorted(by: <) {
-            alocationMatrix[p] = processes[p]!.acquiredResoucesCount
+            alocationMatrix[p] = processes[p]!.acquiredResourcesCount
         }
         return alocationMatrix
     }
@@ -51,13 +51,33 @@ class SO {
         }
     }
     
-    func hasDeadLock() -> Bool {
+//    func hasDeadLock() -> Bool {
+//        let avalibleResouces = resourcesTable.compactMap{$0.value.quantity > 0 ? $0.key : nil}
+//        let processesWithRequest = processes.filter{ $0.value.disiredResource != nil }
+//        let blockedProcesses = processesWithRequest.filter{
+//            !avalibleResouces.contains($0.value.disiredResource ?? -99) || $0.value.disiredResource != nil }
+//        return blockedProcesses.count == processes.count
+//    }
+    
+    func hasDeadLock() -> [Int] {
         let avalibleResouces = resourcesTable.compactMap{$0.value.quantity > 0 ? $0.key : nil}
         let processesWithRequest = processes.filter{ $0.value.disiredResource != nil }
         let blockedProcesses = processesWithRequest.filter{
             !avalibleResouces.contains($0.value.disiredResource ?? -99) || $0.value.disiredResource != nil }
-        return blockedProcesses.count == processes.count
+        
+        var blockedReasouces: [Int] = []
+//        print(blockedProcesses.values.count)
+        for i in 0..<blockedProcesses.count {
+            let p = Array(blockedProcesses.values)[i]
+            blockedReasouces.append(contentsOf: p.acquiredResourcesCount.compactMap{$0.value > 0 ? $0.key : nil})
+        }
+        blockedReasouces = Array(Set(blockedReasouces))
+        
+        let deadlock = blockedProcesses.filter {blockedReasouces.contains($0.value.disiredResource ?? -99)}
+        
+        return Array(deadlock.keys)
     }
+
     
     func watchProcesses(refreshTime: UInt32) {
         let queue = DispatchQueue.global(qos: .userInitiated)
@@ -65,8 +85,10 @@ class SO {
             while (self.isWatching) {
                 sleep(refreshTime)
 //                self.printLocatedReasorces()
-                if (self.hasDeadLock()) {
-                    self.onDeadLock(self)
+                let deadlock = self.hasDeadLock()
+                if (deadlock.count > 0) {
+                    self.say("Deadlock! \(deadlock)")
+//                    self.onDeadLock(self)
                 }
             }
         }
@@ -76,8 +98,8 @@ class SO {
         print("+==========================+")
         for p in processes.keys.sorted(by: <) {
             var pMessenge = "\(getTime()) - \(processes[p]!.id): "
-            for r in processes[p]!.acquiredResoucesCount.keys.sorted(by: <) {
-                pMessenge.append("\(r) -> \(processes[p]!.acquiredResoucesCount[r]!) ")
+            for r in processes[p]!.acquiredResourcesCount.keys.sorted(by: <) {
+                pMessenge.append("\(r) -> \(processes[p]!.acquiredResourcesCount[r]!) ")
             }
             pMessenge.append("\(processes[p]!.disiredResource)  \(processes[p]!.isCancelled ? "cancelado" : "")")
             print(pMessenge)

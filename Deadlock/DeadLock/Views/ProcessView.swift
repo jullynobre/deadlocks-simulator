@@ -16,7 +16,8 @@ class ProcessView: NSView {
 	private var tuLabel: NSTextView = NSTextView(frame: NSRect(x: 36, y: 16, width: 60, height: 17))
     
     public var process: Process?
-	
+    public var so: SO?
+    
 	private let gesture = NSClickGestureRecognizer(target: self, action: Selector(("didClick")))
 	
     override func draw(_ dirtyRect: NSRect) {
@@ -76,7 +77,10 @@ class ProcessView: NSView {
 			print("Did Tap Cancel")
 		case NSApplication.ModalResponse.alertSecondButtonReturn:
 			print("Did Tap Kill")
-            self.process?.cancel()
+            DispatchQueue.main.async {
+                self.so!.killProcess(id: self.process!.id)
+            }
+//            self.deactivateProcess()
 		default:
 			print("Unavailable option")
 		}

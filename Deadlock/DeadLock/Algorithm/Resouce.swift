@@ -42,7 +42,9 @@ class Resource {
             }
         }
         mutex.wait()
-        quantity -= 1
+        if(!simalatingGive) {
+            quantity -= 1
+        }
         mutex.signal()
         
         DispatchQueue.main.async {
@@ -54,7 +56,9 @@ class Resource {
         quantitySemaphore.signal()
         
         mutex.wait()
-        quantity += 1
+        if(!simalatingGive) {
+            quantity += 1
+        }
         mutex.signal()
         
         DispatchQueue.main.async {
