@@ -66,10 +66,14 @@ extension ViewController: AddProcessDelegate, AddResourceDelegate, SetUpSODelega
 		self.so = SO(resourcesTable: [:], processes: [:], view: self)
 		self.so?.watchProcesses(refreshTime: UInt32(refreshTime))
 		print("RefreshTime \(refreshTime)")
+        
+        for process in self.processesViews {
+            process.so = self.so
+        }
 	}
 	
 	func didAddedProcess(_ sender: AddProcessViewController, processId: Int, processTs: Int, processTu: Int) {
-        let newProcess = Process(id: processId, ts: Double(processTs), tu: Double(processTu), resourcesTable: so!.resourcesTable, view: self)
+        let newProcess = Process(id: processId, ts: Double(processTs), tu: Double(processTu), resourcesses: so!.resourcesTable, view: self)
         so!.addProcess(processId: processId, process: newProcess)
         processesViews[processId].process = so?.processes[processId]
 	}
