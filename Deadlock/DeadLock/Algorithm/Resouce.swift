@@ -19,36 +19,38 @@ class Resource {
     
     let mutex: DispatchSemaphore = DispatchSemaphore(value: 1)
     
-    var simalatingGive: Bool = false
-    var canPickFalseReasouce: Int?
+    private var simulatingGive: Bool = false
+    private var canPickFalseReasouce: Int?
     
-    let view: ResourceView
+    let resourceView: ResourceView
     
     init (name: String, quantity: Int, view: ResourceView) {
         self.name = name
         self.quantitySemaphore = DispatchSemaphore(value: quantity)
         self.quantity = quantity
         self.maxQuantity = quantity
-        self.view = view
+        self.resourceView = view
     }
     
     func give(processId: Int) {
         while true {
             quantitySemaphore.wait()
-            if (!simalatingGive || canPickFalseReasouce == processId) {
-                simalatingGive = false
-                canPickFalseReasouce = -99
+            if (simulatingGive && canPickFalseReasouce == processId) {
+                simulatingGive = false
+                canPickFalseReasouce = nil
+                return
+            } else {
                 break
             }
         }
         mutex.wait()
-        if(!simalatingGive) {
+        if(!simulatingGive) {
             quantity -= 1
         }
         mutex.signal()
         
         DispatchQueue.main.async {
-            self.view.updateAvailableLabel(newValue: String(self.quantity))
+            self.resourceView.updateAvailableLabel(newValue: String(self.quantity))
         }
     }
     
@@ -56,13 +58,19 @@ class Resource {
         quantitySemaphore.signal()
         
         mutex.wait()
-        if(!simalatingGive) {
-            quantity += 1
-        }
+        quantity += 1
         mutex.signal()
         
         DispatchQueue.main.async {
-            self.view.updateAvailableLabel(newValue: String(self.quantity))
+            self.resourceView.updateAvailableLabel(newValue: String(self.quantity))
+        }
+    }
+    
+    func cancelGive (processId: Int) {
+        canPickFalseReasouce = processId
+        simulatingGive = true
+        while (simulatingGive) {
+            quantitySemaphore.signal()
         }
     }
 }
