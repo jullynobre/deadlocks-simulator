@@ -15,6 +15,8 @@ extension ViewController {
 		self.generateResourcesLabels()
 		self.generateProcessesLabels()
 		self.generateProcessesArrayLabels()
+		self.generateAvailableResourcesLabels()
+		
 		self.configureBordersAndColors()
 		
 		self.generateProcessesViews()
@@ -41,11 +43,11 @@ extension ViewController {
 	}
 	
 	func generateMatrixLabels() {
-		let heigth = 17, width = 21, xOrigin = 757, yOrigin = 607, xIncrease = 25, yIncrease = -25
+		let heigth = 17, width = 21, xOrigin = 757, yOrigin = 557, xIncrease = 25, yIncrease = -25
 		
-		for xIndex in 0..<15 {
+		for xIndex in 0..<10 {
 			self.acquiredResoucesLabels.append([])
-			for yIndex in 0..<10 {
+			for yIndex in 0..<15 {
 				let xPosition = xOrigin + xIncrease * xIndex
 				let yPosition = yOrigin + yIncrease * yIndex
 				
@@ -56,7 +58,7 @@ extension ViewController {
 	}
 	
 	func generateResourcesLabels() {
-		let height = 17, width = 21, xOrigin = 757, yPosition = 644, xIncrease = 25
+		let height = 17, width = 21, xOrigin = 757, yPosition = 594, xIncrease = 25
 
 		for labelIndex in 0..<10 {
 			let xPosition = xOrigin + xIncrease * labelIndex
@@ -65,7 +67,7 @@ extension ViewController {
 	}
 	
 	func generateProcessesLabels() {
-		let heigth = 17, width = 21, xPosition = 720, yOrigin = 607, yIncrease = -25
+		let heigth = 17, width = 21, xPosition = 720, yOrigin = 557, yIncrease = -25
 
 		for labelIndex in 0..<15 {
 			let yPosition = yOrigin + yIncrease * labelIndex
@@ -74,11 +76,20 @@ extension ViewController {
 	}
 	
 	func generateProcessesArrayLabels() {
-		let heigth = 17, width = 21, xPosition = 1020, yOrigin = 607, yIncrease = -25
+		let heigth = 17, width = 21, xPosition = 1040, yOrigin = 557, yIncrease = -25
 		
 		for labelIndex in 0..<15 {
 			let yPosition = yOrigin + yIncrease * labelIndex
 			self.wantedResourcesLabels.append(self.createLabel(x: xPosition, y: yPosition, width: width, heigth: heigth))
+		}
+	}
+	
+	func generateAvailableResourcesLabels() {
+		let height = 17, width = 21, xOrigin = 757, yPosition = 100, xIncrease = 25
+		
+		for labelIndex in 0..<10 {
+			let xPosition = xOrigin + xIncrease * labelIndex
+			self.availableResourcesLabels.append(self.createLabel(x: xPosition, y: yPosition, width: width, heigth: height))
 		}
 	}
 	
