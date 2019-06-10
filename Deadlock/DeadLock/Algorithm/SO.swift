@@ -13,82 +13,66 @@ class SO {
     
     var processes: [Int: Process]
     var killedProcesses: [Int] = []
-    var resourcesTable: [Int: Resource]
-    var isWatching = true
+    var resources: [Int: Resource]
+    var isWatching = false
     
-    let view: ViewController
-    
-    init(resourcesTable: [Int: Resource], processes: [Int: Process], view: ViewController) {
+    init(resourcesTable: [Int: Resource], processes: [Int: Process]) {
         self.processes = processes
-        self.resourcesTable = resourcesTable
-        self.view = view
+        self.resources = resourcesTable
     }
     
     func alocationMatrix() -> [Int: [Int: Int]] {
         var alocationMatrix = [Int: [Int:Int]]()
         for p in processes.keys.sorted(by: <) {
-            alocationMatrix[p] = processes[p]!.acquiredResourcesCount
+            alocationMatrix[p] = processes[p]!.allocatedResourcesCount
         }
         return alocationMatrix
     }
     
     func killProcess(id: Int) {
-        if (!processes.keys.contains(id)) {
-            print("id inválido")
-        } else {
-            let process = processes[id]!
-            process.cancel()
-            
-            if let desiredResouceId = process.disiredResource {
-                let desiredResouce = resourcesTable[desiredResouceId]!
-                desiredResouce.simalatingGive = true
-                desiredResouce.canPickFalseReasouce = id
-                while (desiredResouce.simalatingGive) {
-                    desiredResouce.retrive()
-                }
-            }
-            processes[id] = nil
+        let process = processes[id]!
+        process.cancel()
+        
+        if let desiredResouceId = process.disiredResource {
+            let desiredResouce = resources[desiredResouceId]!
+            desiredResouce.cancelGiveTo(processId: id)
         }
+        processes[id] = nil
     }
     
-//    func hasDeadLock() -> Bool {
-//        let avalibleResouces = resourcesTable.compactMap{$0.value.quantity > 0 ? $0.key : nil}
-//        let processesWithRequest = processes.filter{ $0.value.disiredResource != nil }
-//        let blockedProcesses = processesWithRequest.filter{
-//            !avalibleResouces.contains($0.value.disiredResource ?? -99) || $0.value.disiredResource != nil }
-//        return blockedProcesses.count == processes.count
-//    }
-    
-    func hasDeadLock() -> [Int] {
-        let avalibleResouces = resourcesTable.compactMap{$0.value.quantity > 0 ? $0.key : nil}
-        let processesWithRequest = processes.filter{ $0.value.disiredResource != nil }
-        let blockedProcesses = processesWithRequest.filter{
-            !avalibleResouces.contains($0.value.disiredResource ?? -99) || $0.value.disiredResource != nil }
+    func searchDeadLock() -> [Int] {
+        var virtualyAvalibleResouces = resources.compactMap{$0.value.quantity > 0 ? $0.key : nil}
+        var testProcessesIds: [Int?] = Array(processes.keys)
         
-        var blockedReasouces: [Int] = []
-//        print(blockedProcesses.values.count)
-        for i in 0..<blockedProcesses.count {
-            let p = Array(blockedProcesses.values)[i]
-            blockedReasouces.append(contentsOf: p.acquiredResourcesCount.compactMap{$0.value > 0 ? $0.key : nil})
+        var loop = true
+        while loop {
+            loop = false
+            for id in testProcessesIds.compactMap({$0}) {
+                if let p = processes[id] {
+                    if virtualyAvalibleResouces.contains(p.disiredResource ?? -99) || p.disiredResource == nil {
+                        loop = true
+                        let allocatedReasources = self.resources.keys.filter {p.allocatedResourcesCount[$0] ?? 0 > 0}
+                        virtualyAvalibleResouces.append(contentsOf: allocatedReasources)
+                        let idIndex = testProcessesIds.firstIndex(of: id)!
+                        testProcessesIds[idIndex] = nil
+                    }
+                }
+            }
         }
-        blockedReasouces = Array(Set(blockedReasouces))
-        
-        let deadlock = blockedProcesses.filter {blockedReasouces.contains($0.value.disiredResource ?? -99)}
-        
-        return Array(deadlock.keys)
+        print(Array(Set(testProcessesIds.compactMap {$0})))
+        return Array(Set(testProcessesIds.compactMap {$0}))
     }
 
     
     func watchProcesses(refreshTime: UInt32) {
+        isWatching = true
         let queue = DispatchQueue.global(qos: .userInitiated)
         queue.async {
             while (self.isWatching) {
                 sleep(refreshTime)
-//                self.printLocatedReasorces()
-                let deadlock = self.hasDeadLock()
+                let deadlock = self.searchDeadLock()
                 if (deadlock.count > 0) {
-                    self.say("Deadlock! \(deadlock)")
-//                    self.onDeadLock(self)
+                    self.displayLog("Deadlock with \(deadlock)")
                 }
             }
         }
@@ -98,41 +82,28 @@ class SO {
         print("+==========================+")
         for p in processes.keys.sorted(by: <) {
             var pMessenge = "\(getTime()) - \(processes[p]!.id): "
-            for r in processes[p]!.acquiredResourcesCount.keys.sorted(by: <) {
-                pMessenge.append("\(r) -> \(processes[p]!.acquiredResourcesCount[r]!) ")
+            for r in processes[p]!.allocatedResourcesCount.keys.sorted(by: <) {
+                pMessenge.append("\(r) -> \(processes[p]!.allocatedResourcesCount[r]!) ")
             }
             pMessenge.append("\(processes[p]!.disiredResource)  \(processes[p]!.isCancelled ? "cancelado" : "")")
             print(pMessenge)
         }
     }
     
-    var onDeadLock: ((SO) -> Void) = {(self) in
-        self.say("DeadLock !!!")
-    }
-    
-    func say (_ messenge: String) {
-        let m = "\(getTime()) - SO: \(messenge)\n\n"
-        print(m)
-        DispatchQueue.main.async {
-            self.view.consoleScrollView.documentView!.insertText(m)
-        }
-    }
-    
-    func addResouce (resouceId: Int, resouce: Resource) {
-        resourcesTable[resouceId] = resouce
+    func registerResouce (resouceId: Int, resouce: Resource) {
+        resources[resouceId] = resouce
         
         for p in processes.values {
-            p.addResouce(resouceId: resouceId, resouce: resouce)
+            p.registerResouce(resouceId: resouceId, resouce: resouce)
         }
-        view.resourcesIdLabels[resouceId].activate(resouceId)
-        
-        for processId in processes.keys {
-            view.acquiredResoucesLabels[processId][resouceId].activate(0)
-        }
+        displayRegisterResource(resouceId, resouce)
     }
     
-    func addProcess (processId: Int, process: Process) {
-        processes[processId] = process
+    func registerProcess (process: Process) {
+        processes[process.id] = process
         process.start()
     }
+    
+    var displayLog: (String) -> Void = {_ in}
+    var displayRegisterResource: (Int, Resource) -> Void = {_, _ in}
 }

@@ -19,50 +19,57 @@ class Resource {
     
     let mutex: DispatchSemaphore = DispatchSemaphore(value: 1)
     
-    var simalatingGive: Bool = false
-    var canPickFalseReasouce: Int?
+    private var simulatingGive: Bool = false
+    private var canPickFalseReasouce: Int? = nil
     
-    let view: ResourceView
-    
-    init (name: String, quantity: Int, view: ResourceView) {
+    init (name: String, quantity: Int) {
         self.name = name
         self.quantitySemaphore = DispatchSemaphore(value: quantity)
         self.quantity = quantity
         self.maxQuantity = quantity
-        self.view = view
     }
     
     func give(processId: Int) {
         while true {
             quantitySemaphore.wait()
-            if (!simalatingGive || canPickFalseReasouce == processId) {
-                simalatingGive = false
-                canPickFalseReasouce = -99
+            if (simulatingGive && canPickFalseReasouce == processId) {
+                simulatingGive = false
+                canPickFalseReasouce = nil
+            } else {
                 break
             }
         }
         mutex.wait()
-        if(!simalatingGive) {
-            quantity -= 1
-        }
+        quantity -= 1
         mutex.signal()
         
-        DispatchQueue.main.async {
-            self.view.updateAvailableLabel(newValue: String(self.quantity))
-        }
+        displayAvalibleReasources(quantity)
     }
     
     func retrive() {
         quantitySemaphore.signal()
         
         mutex.wait()
-        if(!simalatingGive) {
-            quantity += 1
-        }
+        quantity += 1
         mutex.signal()
         
-        DispatchQueue.main.async {
-            self.view.updateAvailableLabel(newValue: String(self.quantity))
+        displayAvalibleReasources(quantity)
+    }
+    
+    func cancelGiveTo (processId: Int) {
+        canPickFalseReasouce = processId
+        simulatingGive = true
+        
+        var simulatedGiveCounter = 0
+        while (simulatingGive) {
+            simulatedGiveCounter += 1
+            quantitySemaphore.signal()
+        }
+        
+        for _ in 0..<simulatedGiveCounter-1 {
+            quantitySemaphore.wait()
         }
     }
+    
+    var displayAvalibleReasources: (Int) -> Void = {_ in}
 }
