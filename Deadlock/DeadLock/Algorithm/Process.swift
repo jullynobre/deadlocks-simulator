@@ -29,7 +29,7 @@ class Process: Thread {
         self.allocatedResourcesCount = resources.mapValues({_ in 0})
     }
     
-    func chooseResouce() -> Int {
+    func chooseResouce() -> Int? {
         var elegibleReasorces: [Int] = []
         
         for r in resources.keys {
@@ -39,12 +39,11 @@ class Process: Thread {
         }
         
         if (elegibleReasorces.count == 0) {
-            displayLog("Não há mais recursos para requisitar!!!\n")
-            Thread.sleep(forTimeInterval: 5.0)
-            return chooseResouce()
+            displayLog("Não há mais recursos para requisitar!!!")
+            return nil
         } else {
             let r = elegibleReasorces.randomElement()!
-            displayWantedResource(resources[r])
+            displayWantedResource(r)
             return r
         }
     }
@@ -55,7 +54,7 @@ class Process: Thread {
         consumeCounters.append(ConsumeCounter(resouceId: resouceId, remaningTime: tu))
         
         displayWantedResource(nil)
-        displayAllocatedResouceCount(allocatedResourcesCount[resouceId]!)
+        displayAllocatedResouceCount(resouceId, allocatedResourcesCount[resouceId]!)
     }
     
     func retrive(resourceId: Int) {
@@ -68,12 +67,13 @@ class Process: Thread {
         resources[resourceId]?.retrive()
         
         displayLog("Liberando \(resources[resourceId]!.name)")
-        displayAllocatedResouceCount(allocatedResourcesCount[resourceId]!)
+        displayAllocatedResouceCount(resourceId, allocatedResourcesCount[resourceId]!)
     }
     
     override func main() {
         var timeToAsk = ts
         
+        self.displayStartProcess()
         while (!self.isCancelled) {
             // Calc sleeping time
             let sleepingTime: Double
@@ -101,24 +101,26 @@ class Process: Thread {
             // Ask Resouce
             if (timeToAsk == 0.0) {
                 self.disiredResource = self.chooseResouce()
-                self.displayLog("Requisitando \(self.resources[self.disiredResource!]!.name)")
-                
-                self.resources[self.disiredResource!]!.give(processId: self.id)
-                
-                self.displayLog("Adquirido \(self.resources[self.disiredResource!]!.name)")
-                self.store(resouceId: self.disiredResource!)
-                self.disiredResource = nil
+                if (disiredResource != nil) {
+                    self.displayLog("Requisitando \(self.resources[self.disiredResource!]!.name)")
+                    
+                    self.resources[self.disiredResource!]!.give(processId: self.id)
+                    
+                    self.displayLog("Adquirido \(self.resources[self.disiredResource!]!.name)")
+                    self.store(resouceId: self.disiredResource!)
+                    self.disiredResource = nil
+                }
             }
             
             // Reset ask counter
             timeToAsk = timeToAsk == 0.0 ? self.ts : timeToAsk
         }
         // Finishing Process
-        for i in self.consumeCounters.indices {
-            let resourceId = consumeCounters[i].resouceId
-            resources[resourceId]?.retrive()
+        for counter in self.consumeCounters {
+            resources[counter.resouceId]?.retrive()
         }
         displayEndProcess()
+        
     }
     
     func registerResouce(resouceId: Int, resouce: Resource) {
@@ -126,10 +128,11 @@ class Process: Thread {
         allocatedResourcesCount[resouceId] = 0
     }
     
-    var displayWantedResource: (Resource?) -> Void = {_ in}
+    var displayWantedResource: (Int?) -> Void = {_ in}
     var displayLog: (String) -> Void = {_ in}
-    var displayAllocatedResouceCount: (Int) -> Void = {_ in}
+    var displayAllocatedResouceCount: (_ resourceId: Int, _ resourceQuantity: Int) -> Void = {(resourceId: Int, resourceQuantity: Int) in}
     var displayEndProcess: () -> Void = {}
+    var displayStartProcess: () -> Void = {}
 }
 
 

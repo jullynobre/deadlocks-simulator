@@ -20,16 +20,13 @@ class Resource {
     let mutex: DispatchSemaphore = DispatchSemaphore(value: 1)
     
     private var simulatingGive: Bool = false
-    private var canPickFalseReasouce: Int?
+    private var canPickFalseReasouce: Int? = nil
     
-    let resourceView: ResourceView
-    
-    init (name: String, quantity: Int, view: ResourceView) {
+    init (name: String, quantity: Int) {
         self.name = name
         self.quantitySemaphore = DispatchSemaphore(value: quantity)
         self.quantity = quantity
         self.maxQuantity = quantity
-        self.resourceView = view
     }
     
     func give(processId: Int) {
@@ -38,20 +35,15 @@ class Resource {
             if (simulatingGive && canPickFalseReasouce == processId) {
                 simulatingGive = false
                 canPickFalseReasouce = nil
-                return
             } else {
                 break
             }
         }
         mutex.wait()
-        if(!simulatingGive) {
-            quantity -= 1
-        }
+        quantity -= 1
         mutex.signal()
         
-        DispatchQueue.main.async {
-            self.resourceView.updateAvailableLabel(newValue: String(self.quantity))
-        }
+        displayAvalibleReasources(quantity)
     }
     
     func retrive() {
@@ -64,11 +56,18 @@ class Resource {
         displayAvalibleReasources(quantity)
     }
     
-    func cancelGive (processId: Int) {
+    func cancelGiveTo (processId: Int) {
         canPickFalseReasouce = processId
         simulatingGive = true
+        
+        var simulatedGiveCounter = 0
         while (simulatingGive) {
+            simulatedGiveCounter += 1
             quantitySemaphore.signal()
+        }
+        
+        for _ in 0..<simulatedGiveCounter-1 {
+            quantitySemaphore.wait()
         }
     }
     

@@ -13,12 +13,12 @@ class SO {
     
     var processes: [Int: Process]
     var killedProcesses: [Int] = []
-    var resourcesTable: [Int: Resource]
+    var resources: [Int: Resource]
     var isWatching = false
     
     init(resourcesTable: [Int: Resource], processes: [Int: Process]) {
         self.processes = processes
-        self.resourcesTable = resourcesTable
+        self.resources = resourcesTable
     }
     
     func alocationMatrix() -> [Int: [Int: Int]] {
@@ -34,28 +34,33 @@ class SO {
         process.cancel()
         
         if let desiredResouceId = process.disiredResource {
-            let desiredResouce = resourcesTable[desiredResouceId]!
-            desiredResouce.cancelGive(processId: id)
+            let desiredResouce = resources[desiredResouceId]!
+            desiredResouce.cancelGiveTo(processId: id)
         }
         processes[id] = nil
     }
     
     func searchDeadLock() -> [Int] {
-        let avalibleResouces = resourcesTable.compactMap{$0.value.quantity > 0 ? $0.key : nil}
-        let processesWithRequest = processes.filter{ $0.value.disiredResource != nil }
-        let blockedProcesses = processesWithRequest.filter{
-            !avalibleResouces.contains($0.value.disiredResource ?? -99) || $0.value.disiredResource != nil }
+        var virtualyAvalibleResouces = resources.compactMap{$0.value.quantity > 0 ? $0.key : nil}
+        var testProcessesIds: [Int?] = Array(processes.keys)
         
-        var blockedReasouces: [Int] = []
-        for i in 0..<blockedProcesses.count {
-            let p = Array(blockedProcesses.values)[i]
-            blockedReasouces.append(contentsOf: p.allocatedResourcesCount.compactMap{$0.value > 0 ? $0.key : nil})
+        var loop = true
+        while loop {
+            loop = false
+            for id in testProcessesIds.compactMap({$0}) {
+                if let p = processes[id] {
+                    if virtualyAvalibleResouces.contains(p.disiredResource ?? -99) || p.disiredResource == nil {
+                        loop = true
+                        let allocatedReasources = self.resources.keys.filter {p.allocatedResourcesCount[$0] ?? 0 > 0}
+                        virtualyAvalibleResouces.append(contentsOf: allocatedReasources)
+                        let idIndex = testProcessesIds.firstIndex(of: id)!
+                        testProcessesIds[idIndex] = nil
+                    }
+                }
+            }
         }
-        blockedReasouces = Array(Set(blockedReasouces))
-        
-        let deadlock = blockedProcesses.filter {blockedReasouces.contains($0.value.disiredResource ?? -99)}
-        
-        return Array(deadlock.keys)
+        print(Array(Set(testProcessesIds.compactMap {$0})))
+        return Array(Set(testProcessesIds.compactMap {$0}))
     }
 
     
@@ -86,7 +91,7 @@ class SO {
     }
     
     func registerResouce (resouceId: Int, resouce: Resource) {
-        resourcesTable[resouceId] = resouce
+        resources[resouceId] = resouce
         
         for p in processes.values {
             p.registerResouce(resouceId: resouceId, resouce: resouce)
@@ -94,8 +99,8 @@ class SO {
         displayRegisterResource(resouceId, resouce)
     }
     
-    func addProcess (processId: Int, process: Process) {
-        processes[processId] = process
+    func registerProcess (process: Process) {
+        processes[process.id] = process
         process.start()
     }
     
